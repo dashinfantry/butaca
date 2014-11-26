@@ -12,7 +12,7 @@ Item {
     property string json: ""
     property string query: ""
 
-    property ListModel model : ListModel { id: jsonModel }
+    property ListModel model: ListModel { id: jsonModel }
     property alias count: jsonModel.count
 
     onSourceChanged: {

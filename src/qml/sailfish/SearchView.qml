@@ -103,7 +103,7 @@ Page {
         source: movieName ? TheMovieDb.search('movie', movieName, {
                                                   app_locale: appLocale,
                                                   'page_value': page,
-                                                  'includeAdult_value': Storage.getSetting('includeAdult', 'true')
+                                                  'includeAdult_value': Storage.getSetting('includeAdult', 'false')
                                               }) : ''
         query: TheMovieDb.query_path(TheMovieDb.SEARCH)
         onJsonChanged: {
@@ -137,7 +137,7 @@ Page {
         source: personName ? TheMovieDb.search('person', personName, {
                                                    app_locale: appLocale,
                                                    'page_value': page,
-                                                   'includeAdult_value': Storage.getSetting('includeAdult', 'true')
+                                                   'includeAdult_value': Storage.getSetting('includeAdult', 'false')
                                                }) : ''
         query: TheMovieDb.query_path(TheMovieDb.SEARCH)
         onJsonChanged: {

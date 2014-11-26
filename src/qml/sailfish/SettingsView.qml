@@ -35,7 +35,7 @@ Page {
     Component.onCompleted: {
         Storage.initialize()
         var includeAll = Storage.getSetting('includeAll', 'true')
-        var includeAdult = Storage.getSetting('includeAdult', 'true')
+        var includeAdult = Storage.getSetting('includeAdult', 'false')
         var date = new Date(Storage.getSetting('showtimesDate', new Date().toString()))
 
         includeAllSwitch.checked = (includeAll === 'true')
@@ -45,9 +45,10 @@ Page {
         setDate(date)
     }
 
-    Component.onDestruction: {
-        Storage.setSetting('location', locationInput.text)
-    }
+    // TODO cinemas
+//    Component.onDestruction: {
+//        Storage.setSetting('location', locationInput.text)
+//    }
 
     SilicaFlickable {
         id: settingsContent

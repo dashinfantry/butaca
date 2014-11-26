@@ -33,16 +33,21 @@ Page {
         id: moviesModel
         property int page: 1
         property string includeAll: Storage.getSetting('includeAll', 'true')
-        property string includeAdult: Storage.getSetting('includeAdult', 'true')
-        source: TMDB.movie_browse(genre, {
-                                      app_locale: appLocale,
-                                      'page_value': page,
-                                      'includeAll_value': includeAll,
-                                      'includeAdult_value': includeAdult
-                                      })
+        property string includeAdult: Storage.getSetting('includeAdult', 'false')
         query: TMDB.query_path(TMDB.MOVIE_BROWSE)
         onJsonChanged: {
             Util.populateModelFromModel(model, localModel, Util.TMDBSearchresult)
+        }
+        Component.onCompleted: updateSource();
+
+        function updateSource() {
+            source = TMDB.movie_browse(genre,
+                                       {
+                                           app_locale: appLocale,
+                                           'page_value': page,
+                                           'includeAll_value': includeAll,
+                                           'includeAdult_value': includeAdult
+                                       })
         }
     }
 
@@ -97,20 +102,16 @@ Page {
                 onClicked: {
                     var page = 1
                     var includeAll = Storage.getSetting('includeAll', 'true')
-                    var includeAdult = Storage.getSetting('includeAdult', 'true')
-
-                    if (moviesModel.page !== page) {
+                    var includeAdult = Storage.getSetting('includeAdult', 'false')
+                    if (moviesModel.page !== page
+                            || moviesModel.includeAll !== includeAll
+                            || moviesModel.includeAdult !== includeAdult) {
                         localModel.clear()
                         moviesModel.json = ''
                         moviesModel.page = page
-                    } else if (moviesModel.includeAll !== includeAll) {
-                        localModel.clear()
-                        moviesModel.json = ''
                         moviesModel.includeAll = includeAll
-                    } else if (moviesModel.includeAdult !== includeAdult) {
-                        localModel.clear()
-                        moviesModel.json = ''
                         moviesModel.includeAdult = includeAdult
+                        moviesModel.updateSource()
                     }
                 }
             }
