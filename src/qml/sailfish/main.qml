@@ -25,6 +25,9 @@ ApplicationWindow {
 
     initialPage: mainPage
 
+    cover: appCover
+
+    CoverPage { id: appCover }
 
     WelcomeView { id: mainPage }
 }

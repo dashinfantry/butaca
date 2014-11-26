@@ -57,5 +57,6 @@
         <file>resources/icon-bg-cinema.png</file>
         <file>qml/sailfish/PropertyItem.qml</file>
         <file>qml/sailfish/InfoPage.qml</file>
+        <file>qml/sailfish/CoverPage.qml</file>
     </qresource>
 </RCC>
