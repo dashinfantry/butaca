@@ -80,8 +80,10 @@ Page {
         }
 
         onMovementEnded: {
-            if (atYEnd)
+            if (atYEnd) {
                 moviesModel.page++
+                moviesModel.updateSource()
+            }
         }
 
         VerticalScrollDecorator { }
