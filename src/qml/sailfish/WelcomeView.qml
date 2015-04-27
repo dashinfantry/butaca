@@ -81,36 +81,6 @@ Page {
 
         Component { id: listsView; ListsView { } }
 
-
-        ListModel {
-            id: menuModel
-
-            ListElement {
-                title: QT_TR_NOOP('Movie genres')
-                subtitle: QT_TR_NOOP('Explore movie genres')
-                action: 0
-            }
-
-            // FIXME: Backend currently doesn't support this
-//            ListElement {
-//                title: QT_TR_NOOP('Showtimes')
-//                subtitle: QT_TR_NOOP('What\'s on in cinemas near you')
-//                action: 1
-//            }
-
-            ListElement {
-                title: QT_TR_NOOP('Search')
-                subtitle: QT_TR_NOOP('Search movies and celebrities')
-                action: 2
-            }
-
-            ListElement {
-                title: QT_TR_NOOP('Lists')
-                subtitle: QT_TR_NOOP('Favorites and watchlist')
-                action: 3
-            }
-        }
-
         Column {
             id: content
             width: parent.width
@@ -121,37 +91,33 @@ Page {
                 title: qsTr('Enjoy the show!')
             }
 
-            Repeater {
-                id: mainMenuList
+            MyListDelegate {
                 width: parent.width
-//                height: menuModel.count * UIConstants.LIST_ITEM_HEIGHT_DEFAULT
-                model: menuModel
-                clip: true
-                delegate: MyListDelegate {
-                    width: parent.width
-                    title: qsTr(model.title)
-                    subtitle: qsTr(model.subtitle)
+                title: qsTr('Movie genres')
+                subtitle: qsTr('Explore movie genres')
+                onClicked: pageStack.push(browseView)
+            }
 
-                    onClicked: {
-                        switch (action) {
-                        case 0:
-                            pageStack.push(browseView)
-                            break;
-                        case 1:
-                            pageStack.push(showtimesView)
-                            break;
-                        case 2:
-                            pageStack.push(searchView)
-                            break;
-                        case 3:
-                            pageStack.push(listsView, { headerText: model.title })
-                            break;
-                        default:
-                            console.debug('Action not available')
-                            break
-                        }
-                    }
-                }
+            // FIXME: Backend currently doesn't support this
+//            MyListDelegate {
+//                width: parent.width
+//                title: qsTr('Showtimes')
+//                subtitle: qsTr('What\'s on in cinemas near you')
+//                onClicked: pageStack.push(showtimesView)
+//            }
+
+            MyListDelegate {
+                width: parent.width
+                title: qsTr('Search')
+                subtitle: qsTr('Search movies and celebrities')
+                onClicked: pageStack.push(searchView)
+            }
+
+            MyListDelegate {
+                width: parent.width
+                title: qsTr('Lists')
+                subtitle: qsTr('Favorites and watchlist')
+                onClicked: pageStack.push(listsView, { "headerText": title })
             }
 
             Grid {
