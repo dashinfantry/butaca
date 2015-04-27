@@ -19,7 +19,6 @@
         <file>qml/sailfish/MyRatingIndicator.qml</file>
         <file>qml/sailfish/MyEntryHeader.qml</file>
         <file>qml/sailfish/MyModelPreviewer.qml</file>
-        <file>qml/sailfish/butacautils.js</file>
         <file>qml/sailfish/storage.js</file>
         <file>resources/movie-placeholder.svg</file>
         <file>resources/person-placeholder.svg</file>
@@ -49,7 +48,6 @@
         <file>qml/sailfish/MyGalleryPreviewer.qml</file>
         <file>qml/sailfish/MyModelFlowPreviewer.qml</file>
         <file>qml/sailfish/MyTextExpander.qml</file>
-        <file>qml/sailfish/moviedbwrapper.js</file>
         <file>resources/round-corners.png</file>
         <file>qml/sailfish/ShowtimesView.qml</file>
         <file>qml/sailfish/FavoritesView.qml</file>
@@ -58,5 +56,7 @@
         <file>qml/sailfish/PropertyItem.qml</file>
         <file>qml/sailfish/InfoPage.qml</file>
         <file>qml/sailfish/CoverPage.qml</file>
+        <file>qml/sailfish/butacautils.js</file>
+        <file>qml/moviedbwrapper.js</file>
     </qresource>
 </RCC>

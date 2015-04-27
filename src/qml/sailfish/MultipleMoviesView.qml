@@ -20,7 +20,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import 'butacautils.js' as Util
-import 'moviedbwrapper.js' as TMDB
+import '../moviedbwrapper.js' as TMDB
 import "storage.js" as Storage
 
 Page {

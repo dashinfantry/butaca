@@ -132,6 +132,7 @@ exists("/usr/include/sailfishapp/sailfishapp.h"): {
 
     OTHER_FILES += qml/sailfish/*.qml \
                    qml/sailfish/*.js \
+                   qml/moviedbwrapper.js \
                    harbour-butaca.desktop \
                    ../data/harbour-butaca.png
 

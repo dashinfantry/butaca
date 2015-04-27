@@ -19,7 +19,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import 'moviedbwrapper.js' as TMDB
+import '../moviedbwrapper.js' as TMDB
 
 Page {
     allowedOrientations: Orientation.Portrait
