@@ -13,7 +13,7 @@ INCLUDEPATH += .
 QMAKE_CXXFLAGS += -fPIC -fvisibility=hidden -fvisibility-inlines-hidden
 QMAKE_LFLAGS += -pie -rdynamic
 
-PACKAGEVERSION = $$system(head -n 1 ../qtc_packaging/debian_harmattan/changelog | grep -o [0-9].[0-9].[0-9])
+PACKAGEVERSION = $$system(head -n 1 ../rpm/harbour-butaca.spec | grep "Version:" | grep -o [0-9].[0-9].[0-9])
 DEFINES += "PACKAGEVERSION=\\\"$$PACKAGEVERSION\\\""
 
 SOURCES += main.cpp \

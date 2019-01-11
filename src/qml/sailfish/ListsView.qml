@@ -88,7 +88,8 @@ Page {
 
         Image {
             anchors.horizontalCenter: parent.horizontalCenter
-            width: 360
+            width: 360 * appWindow.sizeRatio
+            height: 360 * appWindow.sizeRatio
             opacity: 0.5
             source: 'qrc:/resources/icon-bg-cinema.png'
             fillMode: Image.PreserveAspectFit

@@ -23,15 +23,15 @@ import '../moviedbwrapper.js' as TMDB
 
 BackgroundItem {
     id: galleryPreviewer
-    height: 140
+    height: 140 * appWindow.sizeRatio
 
     property ListModel galleryPreviewerModel
     property int previewerDelegateSize: 0
     property int previewerDelegateType: TMDB.IMAGE_POSTER
     property int previewedItems: 4
 
-    property int previewerDelegateIconWidth: 92
-    property int previewerDelegateIconHeight: 138
+    property int previewerDelegateIconWidth: 92 * appWindow.sizeRatio
+    property int previewerDelegateIconHeight: 138 * appWindow.sizeRatio
 
     Flow {
         id: galleryPreviewerFlow

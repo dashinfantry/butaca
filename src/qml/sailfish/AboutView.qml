@@ -135,6 +135,7 @@ Page {
                 id: aboutThemovieDbImage
                 anchors.horizontalCenter: parent.horizontalCenter
                 source: 'qrc:/resources/tmdb-logo.png'
+                scale: appWindow.sizeRatio
             }
 
             Label {

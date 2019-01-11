@@ -257,8 +257,8 @@ Page {
 
                 Image {
                     id: image
-                    width: 160
-                    height: 236
+                    width: 160 * appWindow.sizeRatio
+                    height: 236 * appWindow.sizeRatio
                     source: parsedPerson.profile
                     fillMode: Image.PreserveAspectFit
                 }

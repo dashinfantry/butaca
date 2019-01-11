@@ -284,8 +284,8 @@ Page {
 
                 Image {
                     id: image
-                    width: 160
-                    height: 236
+                    width: 160 * appWindow.sizeRatioR
+                    height: 236 * appWindow.sizeRatio
                     source: parsedMovie.poster
                     fillMode: Image.PreserveAspectFit
                 }
@@ -397,7 +397,7 @@ Page {
                     galleryPreviewerModel: backdropsModel
                     previewerDelegateType: TMDB.IMAGE_BACKDROP
                     previewedItems: 2
-                    previewerDelegateIconWidth: 92 * 2
+                    previewerDelegateIconWidth: 92 * 2 * appWindow.sizeRatio
                     visible: backdropsModel.count > 0
 
                     onClicked: {

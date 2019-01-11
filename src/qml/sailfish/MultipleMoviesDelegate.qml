@@ -32,7 +32,7 @@ BackgroundItem {
     property int votes: 0
 
     width: movieDelegate.ListView.view.width
-    height: 140 + Theme.paddingLarge
+    height: 140 * appWindow.sizeRatio + Theme.paddingLarge
 
     Item {
         anchors {
@@ -56,8 +56,8 @@ BackgroundItem {
 
             Image {
                 id: moviePoster
-                width: 95
-                height: 140
+                width: 95 * appWindow.sizeRatio
+                height: 140 * appWindow.sizeRatio
                 fillMode: Image.PreserveAspectFit
                 source: iconSource ?
                             TMDB.image(TMDB.IMAGE_POSTER, 0, iconSource, { app_locale: appLocale }) :

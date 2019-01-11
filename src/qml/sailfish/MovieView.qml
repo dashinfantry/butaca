@@ -67,7 +67,7 @@ Page {
             name = movie.name
             url = 'http://www.themoviedb.org/movie/' + tmdbId
             if (movie.img)
-                poster = TMDB.image(TMDB.IMAGE_POSTER, 2,
+                poster = TMDB.image(TMDB.IMAGE_POSTER, 1 + appWindow.sizeRatio,
                                     movie.img, { app_locale: appLocale })
         }
 
@@ -76,7 +76,7 @@ Page {
             name = movie.title
             url = 'http://www.themoviedb.org/movie/' + tmdbId
             if (movie.poster_path)
-                poster = TMDB.image(TMDB.IMAGE_POSTER, 2,
+                poster = TMDB.image(TMDB.IMAGE_POSTER, 1 + appWindow.sizeRatio,
                                     movie.poster_path, { app_locale: appLocale })
             if (movie.original_title)
                 originalName = movie.original_title
@@ -210,7 +210,7 @@ Page {
 
         MediaGalleryView {
             gridSize: 0
-            saveSize: 100
+            saveSize: 100 * appWindow.sizeRatio
         }
     }
 
@@ -433,7 +433,7 @@ Page {
                     galleryPreviewerModel: backdropsModel
                     previewerDelegateType: TMDB.IMAGE_BACKDROP
                     previewedItems: 2
-                    previewerDelegateIconWidth: 92 * 2
+                    previewerDelegateIconWidth: 92 * 2 * appWindow.sizeRatio
                     visible: backdropsModel.count > 0
 
                     onClicked: {

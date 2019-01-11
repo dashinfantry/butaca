@@ -96,8 +96,8 @@ Item {
     QtObject {
         id: internal
 
-        property int imageWidth: 16
-        property int imageHeight: 16
+        property int imageWidth: 16 * appWindow.sizeRatio
+        property int imageHeight: 16 * appWindow.sizeRatio
         property int indicatorSpacing: 5  // spacing between images
         property int textSpacing: 8  // spacing between image and text
         property url backgroundImageSource: "image://theme/icon-m-favorite" + (highlighted ? "?" + Theme.highlightColor : "")
