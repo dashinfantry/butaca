@@ -4,7 +4,6 @@ import 'storage.js' as Storage
 
 Page {
     id: listsView
-    allowedOrientations: Orientation.Portrait
 
     Component.onCompleted: {
         // Due to a limitation in the ListModel, translating its elements
@@ -41,7 +40,17 @@ Page {
 
     Component { id: favoritesView; FavoritesView { } }
 
+    Image {
+        anchors.centerIn: parent
+        fillMode: Image.PreserveAspectFit
+        width: 360 * appWindow.sizeRatio
+        height: 360 * appWindow.sizeRatio
+        opacity: 0.4
+        source: 'qrc:/resources/icon-bg-cinema.png'
+    }
+
     Column {
+        id: col
         anchors.fill: parent
 
         PageHeader {
@@ -86,13 +95,5 @@ Page {
             height: 2 * Theme.paddingLarge
         }
 
-        Image {
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 360 * appWindow.sizeRatio
-            height: 360 * appWindow.sizeRatio
-            opacity: 0.5
-            source: 'qrc:/resources/icon-bg-cinema.png'
-            fillMode: Image.PreserveAspectFit
-        }
     }
 }

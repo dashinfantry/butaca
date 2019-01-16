@@ -25,7 +25,6 @@ import "butacautils.js" as Util
 Page {
     id: cinemasView
 
-    allowedOrientations: Orientation.Portrait
 
     property string extendedSection: ''
     property string location

@@ -24,7 +24,6 @@ import '../moviedbwrapper.js' as TMDB
 
 Page {
     id: castView
-    allowedOrientations: Orientation.Portrait
 
     // Dummy function for translations (found no other way to add them to the file)
     function dummy() {

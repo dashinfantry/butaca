@@ -30,7 +30,6 @@ Page {
 //            }
 //        }
 //    }
-//    allowedOrientations: Orientation.Portrait
 
     Component.onCompleted: {
         Storage.initialize()

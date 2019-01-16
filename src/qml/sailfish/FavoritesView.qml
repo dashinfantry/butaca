@@ -24,7 +24,6 @@ import 'storage.js' as Storage
 
 Page {
     id: favoritesView
-    allowedOrientations: Orientation.Portrait
 
     property bool holdsMixedContent: false
     property string moviePlaceholderIcon: 'qrc:/resources/movie-placeholder.svg'

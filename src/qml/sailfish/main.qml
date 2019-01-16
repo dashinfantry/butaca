@@ -28,6 +28,12 @@ ApplicationWindow {
     property bool smallestScreen: Screen.width  < 720
     property int sizeRatio: smallestScreen ? 1 : smallScreen ? 1.5 : 2
 
+    allowedOrientations: Orientation.Portrait | Orientation.Landscape
+                         | Orientation.LandscapeInverted
+
+    _defaultPageOrientations: Orientation.Portrait | Orientation.Landscape
+    | Orientation.LandscapeInverted
+
     initialPage: mainPage
 
     cover: appCover

@@ -25,7 +25,6 @@ import 'storage.js' as Storage
 
 Page {
     id: searchView
-    allowedOrientations: Orientation.Portrait
 
     property alias searchTerm: searchInput.text
     property bool useSimpleDelegate : searchCategory.currentIndex === 2

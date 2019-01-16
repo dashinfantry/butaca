@@ -26,8 +26,6 @@ import 'storage.js' as Storage
 Page {
     id: movieView
 
-    allowedOrientations: Orientation.Portrait
-
     property variant movie: ''
     property alias tmdbId: parsedMovie.tmdbId
     property alias imdbId: parsedMovie.imdbId

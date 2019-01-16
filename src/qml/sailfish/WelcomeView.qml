@@ -1,3 +1,4 @@
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,17 +17,14 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import 'butacautils.js' as Util
-import '../moviedbwrapper.js' as TMDB
-import 'storage.js' as Storage
+import "butacautils.js" as Util
+import "../moviedbwrapper.js" as TMDB
+import "storage.js" as Storage
 
 Page {
     id: welcomeView
-
-    allowedOrientations: Orientation.Portrait
 
     SilicaFlickable {
         anchors.fill: parent
@@ -36,15 +34,16 @@ Page {
         Component.onCompleted: {
             Storage.initialize()
             var favorites = Storage.getFavorites()
-            for (var i = 0; i < favorites.length; i ++) {
+            for (var i = 0; i < favorites.length; i++) {
                 favoritesModel.append(favorites[i])
             }
 
             Util.asyncQuery({
-                                url: TMDB.configuration_getUrl({ app_locale: appLocale }),
-                                response_action: 0
-                            },
-                            handleMessage)
+                url: TMDB.configuration_getUrl({
+                    app_locale: appLocale
+                }),
+                response_action: 0
+            }, handleMessage)
         }
 
         PullDownMenu {
@@ -63,23 +62,59 @@ Page {
             }
         }
 
-        Component { id: browseView; GenresView { } }
+        Component {
+            id: browseView
+            GenresView {
+            }
+        }
 
-        Component { id: searchView; SearchView { } }
+        Component {
+            id: searchView
+            SearchView {
+            }
+        }
 
-        Component { id: showtimesView; TheatersView { } }
+        Component {
+            id: showtimesView
+            TheatersView {
+            }
+        }
 
-        Component { id: settingsView; SettingsView { } }
+        Component {
+            id: settingsView
+            SettingsView {
+            }
+        }
 
-        Component { id: movieView; MovieView { } }
+        Component {
+            id: movieView
+            MovieView {
+            }
+        }
 
-        Component { id: tvView; TvView { } }
+        Component {
+            id: tvView
+            TvView {
+            }
+        }
 
-        Component { id: personView; PersonView { } }
+        Component {
+            id: personView
+            PersonView {
+            }
+        }
 
-        Component { id: aboutView; AboutView { } }
+        Component {
+            id: aboutView
+            AboutView {
+            }
+        }
 
-        Component { id: listsView; ListsView { } }
+        Component {
+            id: listsView
+            ListsView {
+            }
+        }
 
         Column {
             id: content
@@ -98,14 +133,14 @@ Page {
                 onClicked: pageStack.push(browseView)
             }
 
-            // FIXME: Backend currently doesn't support this
-//            MyListDelegate {
-//                width: parent.width
-//                title: qsTr('Showtimes')
-//                subtitle: qsTr('What\'s on in cinemas near you')
-//                onClicked: pageStack.push(showtimesView)
-//            }
 
+            // FIXME: Backend currently doesn't support this
+            //            MyListDelegate {
+            //                width: parent.width
+            //                title: qsTr('Showtimes')
+            //                subtitle: qsTr('What\'s on in cinemas near you')
+            //                onClicked: pageStack.push(showtimesView)
+            //            }
             MyListDelegate {
                 width: parent.width
                 title: qsTr('Search')
@@ -117,7 +152,9 @@ Page {
                 width: parent.width
                 title: qsTr('Lists')
                 subtitle: qsTr('Favorites and watchlist')
-                onClicked: pageStack.push(listsView, { "headerText": title })
+                onClicked: pageStack.push(listsView, {
+                                              headerText: title
+                                          })
             }
 
             Grid {
@@ -129,43 +166,51 @@ Page {
                 Repeater {
                     model: favoritesModel
                     delegate: FavoriteDelegate {
-                        source: icon ? icon :
-                                       (type == Util.MOVIE ?
-                                            'qrc:/resources/movie-placeholder.svg' :
-                                            'qrc:/resources/person-placeholder.svg')
+                        source: icon ? icon : (type == Util.MOVIE ? 'qrc:/resources/movie-placeholder.svg' : 'qrc:/resources/person-placeholder.svg')
                         text: title
                         onClicked: {
                             if (type == Util.MOVIE) {
-                                appWindow.pageStack.push(movieView,
-                                                         { tmdbId: id,
-                                                             loading: true })
+                                appWindow.pageStack.push(movieView, {
+                                                             tmdbId: id,
+                                                             loading: true
+                                                         })
                             } else if (type == Util.TV) {
-                                appWindow.pageStack.push(tvView,
-                                                         { tmdbId: id,
-                                                             loading: true })
+                                appWindow.pageStack.push(tvView, {
+                                                             tmdbId: id,
+                                                             loading: true
+                                                         })
                             } else {
-                                appWindow.pageStack.push(personView,
-                                                         { tmdbId: id,
-                                                             loading: true })
+                                appWindow.pageStack.push(personView, {
+                                                             tmdbId: id,
+                                                             loading: true
+                                                         })
                             }
                         }
                     }
                 }
             }
 
-            ViewPlaceholder {
-                //: Shown as a placeholder in the favorites area of the main view while no favorites are there
-                text: qsTr('Your favorite content will appear here')
-                enabled: favoritesModel.count == 0
-                verticalOffset: 6* Theme.paddingLarge
-            }
+        }
+        Label {
+            //: Shown as a placeholder in the favorites area of the main view while no favorites are there
+            text: qsTr('Your favorite content will appear here')
+            visible: favoritesModel.count == 0
+            color: Theme.highlightColor
+            wrapMode: Text.WordWrap
+            font.pixelSize: Theme.fontSizeExtraLarge
+            anchors.top: content.bottom
+            anchors.bottom: parent.bottom
+            anchors.topMargin: (welcomeView.height - content.height)  / 2
+            horizontalAlignment: Text.AlignHCenter
+            width: parent.width
         }
 
         ListModel {
             id: favoritesModel
         }
 
-        VerticalScrollDecorator { }
+        VerticalScrollDecorator {
+        }
     }
 
     function addFavorite(content) {
@@ -180,7 +225,7 @@ Page {
     }
 
     function removeFavoriteAt(idx) {
-        if (idx != -1) {
+        if (idx !== -1) {
             var rowId = favoritesModel.get(idx).rowId
             favoritesModel.remove(idx)
             Storage.removeFavorite(rowId)
@@ -188,9 +233,9 @@ Page {
     }
 
     function indexOf(content) {
-        for (var i = 0; i < favoritesModel.count; i ++) {
-            if (favoritesModel.get(i).id == content.id &&
-                    favoritesModel.get(i).type == content.type) {
+        for (var i = 0; i < favoritesModel.count; i++) {
+            if (favoritesModel.get(i).id === content.id && favoritesModel.get(
+                        i).type === content.type) {
                 return i
             }
         }
@@ -200,6 +245,8 @@ Page {
     function handleMessage(messageObject) {
         var jsonResponse = JSON.parse(messageObject.response)
         if (jsonResponse.errors === undefined)
-            TMDB.configuration_set(jsonResponse, { app_locale: appLocale })
+            TMDB.configuration_set(jsonResponse, {
+                                       app_locale: appLocale
+                                   })
     }
 }

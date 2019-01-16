@@ -25,7 +25,6 @@ import '../moviedbwrapper.js' as TMDB
 Page {
     id: personView
 
-//    allowedOrientations: Orientation.Portrait
 
 //    tools: ButacaToolBar {
 //        content: ({

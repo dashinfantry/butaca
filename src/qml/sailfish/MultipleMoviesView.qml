@@ -24,7 +24,6 @@ import '../moviedbwrapper.js' as TMDB
 import "storage.js" as Storage
 
 Page {
-    allowedOrientations: Orientation.Portrait
 
     property string genre: ''
     property string genreName:  ''
