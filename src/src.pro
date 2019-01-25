@@ -181,6 +181,7 @@ TRANSLATIONS += \
     l10n/butaca.nl.ts \
     l10n/butaca.ru.ts \
     l10n/butaca.sv.ts \
+    l10n/butaca.zh_CN.ts \
     l10n/butaca.ca.ts
 
 # Rule for regenerating .qm files for translations (missing in qmake

@@ -41,6 +41,8 @@
         <file>l10n/butaca.vi.qm</file>
         <file>l10n/butaca.en_GB.qm</file>
         <file>l10n/butaca.nl.qm</file>
+        <file>l10n/butaca.sv.qm</file>
+        <file>l10n/butaca.zh_CN.qm</file>
         <file>qml/sailfish/MovieView.qml</file>
         <file>qml/sailfish/TvView.qml</file>
         <file>qml/sailfish/MediaGalleryView.qml</file>
