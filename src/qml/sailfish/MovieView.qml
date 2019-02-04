@@ -22,6 +22,7 @@ import Sailfish.Silica 1.0
 import 'butacautils.js' as Util
 import '../moviedbwrapper.js' as TMDB
 import 'storage.js' as Storage
+import Launcher 1.0
 
 Page {
     id: movieView
@@ -124,6 +125,18 @@ Page {
             Util.populateModelFromArray(crew, creditsModel)
             Util.populateModelFromArray(cast, creditsModel)
         }
+    }
+
+    App {
+        id: bar
+    }
+
+    function videoPlayerPresent() {
+        var res = bar.launch("which harbour-videoPlayer")
+        if (res.replace("\n","") === "/usr/bin/harbour-videoPlayer")
+        return true
+        else
+        return false
     }
 
     function sortByCastId(oneItem, theOther) {
@@ -240,7 +253,8 @@ Page {
                                                    'year': Util.getYearFromDate(parsedMovie.released),
                                                    'iconSource': parsedMovie.poster,
                                                    'rating': parsedMovie.rating,
-                                                   'votes': parsedMovie.votes
+                                                   'votes': parsedMovie.votes,
+                                                   'type': Util.MOVIE
                                                })
                     }
                 }
@@ -453,7 +467,16 @@ Page {
                     iconSource: 'qrc:/resources/icon-m-common-video-playback.png'
                     visible: parsedMovie.trailer
 
-                    onClicked: Qt.openUrlExternally(parsedMovie.trailer)
+                    onClicked: {
+                        if (videoPlayerPresent()) {
+                            bar.launch("harbour-videoPlayer " + parsedMovie.trailer)
+                        } else {
+                            Qt.openUrlExternally(parsedMovie.trailer)
+                        }
+                    }
+                    onPressAndHold: {
+                        Qt.openUrlExternally(parsedMovie.trailer)
+                    }
                 }
             }
 

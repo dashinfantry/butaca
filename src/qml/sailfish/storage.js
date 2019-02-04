@@ -44,7 +44,14 @@ function initialize() {
         db.transaction(
             function(tx) {
                 tx.executeSql('CREATE TABLE IF NOT EXISTS watchlist' +
-                              '(movieId TEXT, name TEXT, year TEXT, iconSource TEXT, rating DOUBLE, votes INT)')
+                              '(movieId TEXT, name TEXT, year TEXT, iconSource TEXT, rating DOUBLE, votes INT, watchType TINYINT)')
+                // add watchType column if not present
+                var result = tx.executeSql(
+                    "SELECT * FROM sqlite_master where sql like('%watchType%');")
+                if (result.rows.length === 0) {
+                    // must be an old table definition, lets add a column
+                    tx.executeSql("alter table watchlist add watchType TINYINT default '1';")
+                }
             })
         db.transaction(
             function(tx) {
@@ -134,10 +141,10 @@ function addToWatchlist(movie) {
         var db = getDatabase()
         db.transaction(function(tx) {
                            tx.executeSql('INSERT OR REPLACE INTO watchlist '+
-                                         'VALUES (?, ?, ?, ?, ?, ?);',
+                                         'VALUES (?, ?, ?, ?, ?, ?, ?);',
                                          [movie.id, movie.name,
                                           movie.year, movie.iconSource,
-                                          movie.rating, movie.votes])
+                                          movie.rating, movie.votes, movie.type])
                        })
     } catch (ex) {
         console.debug('addToWatchlist:', ex)
@@ -171,7 +178,7 @@ function getWatchlist() {
     try {
         var db = getDatabase()
         db.transaction(function(tx) {
-                           var rs = tx.executeSql('SELECT movieId, name, year, iconSource, rating, votes FROM watchlist;')
+                           var rs = tx.executeSql('SELECT movieId, name, year, iconSource, rating, votes, watchType FROM watchlist;')
                            for (var i = 0; i < rs.rows.length; i ++) {
                                var currentItem = rs.rows.item(i)
                                res.push({
@@ -180,6 +187,7 @@ function getWatchlist() {
                                             'year': currentItem.year,
                                             'icon': currentItem.iconSource,
                                             'rating': currentItem.rating,
+                                            'type': currentItem.watchType,
                                             'votes': currentItem.votes,
                                         })
                            }

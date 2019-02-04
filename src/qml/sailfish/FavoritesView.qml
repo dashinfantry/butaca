@@ -98,7 +98,7 @@ Page {
             name: 'watchlist'
             PropertyChanges {
                 target: favoritesView
-                holdsMixedContent: false
+                holdsMixedContent: true
             }
             PropertyChanges {
                 target: noContentItem

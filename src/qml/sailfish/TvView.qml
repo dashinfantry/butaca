@@ -213,6 +213,32 @@ Page {
 
         PullDownMenu {
             MenuItem {
+                enabled: !loading
+                text: !inWatchlist ?
+                          //: This adds the TV serie to the watch list
+                          qsTr('Add to watchlist') :
+                          //: This removes the movie from the watch list
+                          qsTr('Remove from watchlist')
+                onClicked: {
+                    if (inWatchlist) {
+                        Storage.removeFromWatchlist({
+                                                        'id': tmdbId
+                                                    })
+                    } else {
+                        console.log('Sending!')
+                        Storage.addToWatchlist({
+                                                   'id': tmdbId,
+                                                   'name': parsedMovie.name,
+                                                   'year': Util.getYearFromDate(parsedMovie.released),
+                                                   'iconSource': parsedMovie.poster,
+                                                   'rating': parsedMovie.rating,
+                                                   'votes': parsedMovie.votes,
+                                                   'type': Util.TV
+                                               })
+                    }
+                }
+            }
+            MenuItem {
                 //: This opens a website displaying the movie homepage
                 text: qsTr('Open homepage')
                 visible: parsedMovie.homepage

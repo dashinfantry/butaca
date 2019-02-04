@@ -1,11 +1,37 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "storage.js" as Storage
 
 CoverBackground {
 
-    property bool noContent: true //gridModel ? gridModel.count > 0 : true
-//    property bool showFavs: true
-//    property ListModel gridModel: null
+    property bool noContent: favoritesModel.count > 0 ? false : true
+    property bool showFavs: true
+
+    ListModel {
+        id: favoritesModel
+    }
+
+    Component.onCompleted: {
+        loadFavorites()
+    }
+
+    function loadFavorites() {
+        favoritesModel.clear()
+        var favorites = Storage.getFavorites()
+        for (var i = 0; i < favorites.length; i++) {
+            favoritesModel.append(favorites[i])
+            if ( i === 3 ) break
+        }
+    }
+
+    onStatusChanged: {
+        switch (status) {
+            case PageStatus.Activating:
+            // reload favorites
+            loadFavorites()
+            break
+        }
+    }
 
     Image {
         id: backGroundImg
@@ -27,22 +53,27 @@ CoverBackground {
         text: 'Butaca'
     }
 
-//    Grid {
-//        id: gridView
-//        width: parent.width
-//        columns: 2
-//        visible: showFavs
-//        Repeater {
-//            id: rep
-//            model: Math.min(4, gridModel)
-//            delegate: Image {
-//                width: parent.width / 2
-//                height: 1.5 * width
-//                source: icon ? icon :
-//                               (type == Util.MOVIE ?
-//                                    'qrc:/resources/movie-placeholder.svg' :
-//                                    'qrc:/resources/person-placeholder.svg')
-//            }
-//        }
-//    }
+    Grid {
+        id: gridView
+        width: parent.width
+        columns: 2
+        visible: showFavs
+        Repeater {
+            id: rep
+            model: favoritesModel
+            delegate: Image {
+                width: parent.width / 2
+                height: 1.5 * width
+                source: icon ? icon : 'qrc:/resources/movie-placeholder.svg'
+            }
+        }
+    }
+    Label {
+        visible: !noContent
+        anchors.bottomMargin: 0
+        anchors.bottom: parent.bottom
+        font.pixelSize: Theme.fontSizeTiny
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: "Butaca"
+    }
 }

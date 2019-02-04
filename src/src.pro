@@ -17,6 +17,7 @@ PACKAGEVERSION = $$system(head -n 1 ../rpm/harbour-butaca.spec | grep "Version:"
 DEFINES += "PACKAGEVERSION=\\\"$$PACKAGEVERSION\\\""
 
 SOURCES += main.cpp \
+    osread.cpp \
     theaterlistmodel.cpp \
     movie.cpp \
     sortfiltermodel.cpp \
@@ -26,6 +27,7 @@ SOURCES += main.cpp \
     cinema.cpp
 
 HEADERS += \
+    osread.h \
     theaterlistmodel.h \
     movie.h \
     sortfiltermodel.h \
