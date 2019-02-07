@@ -23,6 +23,7 @@ import 'butacautils.js' as Util
 import '../moviedbwrapper.js' as TMDB
 import 'storage.js' as Storage
 import Launcher 1.0
+import Execos 1.0
 
 Page {
     id: movieView
@@ -125,6 +126,11 @@ Page {
             Util.populateModelFromArray(crew, creditsModel)
             Util.populateModelFromArray(cast, creditsModel)
         }
+    }
+
+    Exos {
+        id: oscall
+        onReadyRead: os_output = readAll()
     }
 
     App {
@@ -469,7 +475,8 @@ Page {
 
                     onClicked: {
                         if (videoPlayerPresent()) {
-                            bar.launch("harbour-videoPlayer " + parsedMovie.trailer)
+                            oscall.start("/usr/bin/invoker",
+                            ["--type=silica-qt5", "--single-instance", "harbour-videoPlayer", parsedMovie.trailer])
                         } else {
                             Qt.openUrlExternally(parsedMovie.trailer)
                         }

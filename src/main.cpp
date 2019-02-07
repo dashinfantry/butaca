@@ -47,6 +47,7 @@
 #ifdef BUILD_FOR_SAILFISH
     #include <sailfishapp.h>
     #include "osread.h"
+    #include "execos.h"
 #endif
 
 #include "controller.h"
@@ -110,6 +111,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
 #ifdef BUILD_FOR_SAILFISH
     qmlRegisterType<Launcher>("Launcher", 1 , 0 , "App");
+    qmlRegisterType<Execos>("Execos", 1, 0, "Exos");
     view->setSource(QUrl("qrc:/qml/sailfish/main.qml"));
     view->show();
 #else

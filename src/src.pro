@@ -28,6 +28,7 @@ SOURCES += main.cpp \
 
 HEADERS += \
     osread.h \
+    execos.h \
     theaterlistmodel.h \
     movie.h \
     sortfiltermodel.h \
