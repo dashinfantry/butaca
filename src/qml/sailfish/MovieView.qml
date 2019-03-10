@@ -470,7 +470,7 @@ Page {
                     title: qsTr('Watch trailer')
                     titleSize: Theme.fontSizeLarge
 
-                    iconSource: 'qrc:/resources/icon-m-common-video-playback.png'
+                    iconSource: 'image://theme/icon-l-play'
                     visible: parsedMovie.trailer
 
                     onClicked: {

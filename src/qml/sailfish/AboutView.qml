@@ -42,7 +42,7 @@ Page {
                                  'Alexandre Mazari, Petru Motrescu, Oytun Şengül, ' +
                                  'Ismail Coskuner, Aras Ergus, Joaquim Rocha, ' +
                                  'Marco Porsch, Lukas Vogel, Stephan Beyerle, ' +
-                                 'Jakub Kožíšek</p>')
+                                 'Jakub Kožíšek, Arno Dekker</p>')
     property string styleSheets: "<style type='text/css'>a:link {color:%1}</style>".arg(Theme.highlightColor)
 
     Component.onCompleted: {
@@ -52,8 +52,6 @@ Page {
         aboutOptions.get(1).title = qsTr('Tell us what you think')
         //: Short text inviting to rate us at openrepos.net
         aboutOptions.get(2).title = qsTr('Rate us at openrepos.net')
-        //: Short text inviting to follow us on Twitter
-        aboutOptions.get(3).title = qsTr('Follow us on Twitter')
     }
 
     ListModel {
@@ -73,11 +71,6 @@ Page {
             action: 'openExternally'
             data: 'https://openrepos.net/content/lukedirtwalker/butaca'
         }
-        ListElement {
-            title: 'Síguenos en Twitter'
-            action: 'openExternally'
-            data: 'https://twitter.com/lukedirtwalker'
-        }
     }
 
     SilicaFlickable {
@@ -85,6 +78,9 @@ Page {
         clip: true
         anchors.fill: parent
         contentHeight: contentColumn.height
+
+        VerticalScrollDecorator {
+        }
 
         Column {
             id: contentColumn
@@ -181,21 +177,45 @@ Page {
             //                onLinkActivated: Qt.openUrlExternally(link)
             //            }
 
-            Button {
-                anchors.horizontalCenter: parent.horizontalCenter
-                //: Shown in a button. When clicked, the application license is shown
-                text: qsTr('License')
-                onClicked: pageStack.push(Qt.resolvedUrl("InfoPage.qml"),
-                                          {"title": text, "text": license})
+            Row {
+                anchors.right: parent.right
+                anchors.rightMargin: Theme.horizontalPageMargin
+                anchors.left: parent.left
+                anchors.leftMargin: Theme.horizontalPageMargin
+                spacing: (width / 2) * 0.1
+                height: Theme.itemSizeMedium + Theme.paddingMedium
+                Button {
+                    //: Shown in a button. When clicked, the application license is shown
+                    anchors.bottom: parent.bottom
+                    width: (parent.width / 2) * 0.95
+                    text: qsTr('License')
+                    onClicked: pageStack.push(Qt.resolvedUrl("InfoPage.qml"),
+                    {"title": text, "text": license})
+                }
+                Button {
+                    //: Shown in a button. When clicked, the application credits are shown
+                    anchors.bottom: parent.bottom
+                    width: (parent.width / 2) * 0.95
+                    text: qsTr('Credits')
+                    onClicked: pageStack.push(Qt.resolvedUrl("InfoPage.qml"),
+                    {"title": text, "text": credits})
+                }
             }
+            //Button {
+            //    anchors.horizontalCenter: parent.horizontalCenter
+            //    //: Shown in a button. When clicked, the application license is shown
+            //    text: qsTr('License')
+            //    onClicked: pageStack.push(Qt.resolvedUrl("InfoPage.qml"),
+            //                              {"title": text, "text": license})
+            //}
 
-            Button {
-                anchors.horizontalCenter: parent.horizontalCenter
-                //: Shown in a button. When clicked, the application credits are shown
-                text: qsTr('Credits')
-                onClicked: pageStack.push(Qt.resolvedUrl("InfoPage.qml"),
-                                          {"title": text, "text": credits})
-            }
+            //Button {
+            //    anchors.horizontalCenter: parent.horizontalCenter
+            //    //: Shown in a button. When clicked, the application credits are shown
+            //    text: qsTr('Credits')
+            //    onClicked: pageStack.push(Qt.resolvedUrl("InfoPage.qml"),
+            //                              {"title": text, "text": credits})
+            //}
         }
     }
 }

@@ -13,7 +13,7 @@ Name:       harbour-butaca
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Butaca
-Version:    0.10.4
+Version:    0.10.5
 Release:    1
 Group:      Qt/Qt
 License:    GPL
