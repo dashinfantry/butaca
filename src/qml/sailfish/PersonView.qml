@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,32 +18,28 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import 'butacautils.js' as Util
-import '../moviedbwrapper.js' as TMDB
+import "butacautils.js" as Util
+import "../moviedbwrapper.js" as TMDB
 
 Page {
     id: personView
 
-
-//    tools: ButacaToolBar {
-//        content: ({
-//                      id: parsedPerson.tmdbId,
-//                      url: parsedPerson.url,
-//                      title: parsedPerson.name,
-//                      icon: parsedPerson.profile,
-//                      type: Util.PERSON
-//                  })
-//        isFavorite: welcomeView.indexOf({
-//                                            id: tmdbId,
-//                                            type: Util.PERSON
-//                                        }) >= 0
-//        menu: personMenu
-//    }
-
-
+    //    tools: ButacaToolBar {
+    //        content: ({
+    //                      id: parsedPerson.tmdbId,
+    //                      url: parsedPerson.url,
+    //                      title: parsedPerson.name,
+    //                      icon: parsedPerson.profile,
+    //                      type: Util.PERSON
+    //                  })
+    //        isFavorite: welcomeView.indexOf({
+    //                                            id: tmdbId,
+    //                                            type: Util.PERSON
+    //                                        }) >= 0
+    //        menu: personMenu
+    //    }
     property variant person: ''
     property alias tmdbId: parsedPerson.tmdbId
     property bool loading: false
@@ -71,8 +69,9 @@ Page {
             name = person.name
             url = 'http://www.themoviedb.org/person/' + tmdbId
             if (person.img)
-                profile = TMDB.image(TMDB.IMAGE_PROFILE, 1,
-                                     person.img, { app_locale: appLocale })
+                profile = TMDB.image(TMDB.IMAGE_PROFILE, 1, person.img, {
+                                         "app_locale": appLocale
+                                     })
         }
 
         // parses JSON response
@@ -81,7 +80,9 @@ Page {
             url = 'http://www.themoviedb.org/person/' + tmdbId
             if (person.profile_path)
                 profile = TMDB.image(TMDB.IMAGE_PROFILE, 1,
-                                     person.profile_path, { app_locale: appLocale })
+                                     person.profile_path, {
+                                         "app_locale": appLocale
+                                     })
             if (person.biography)
                 biography = person.biography
             if (person.birthday)
@@ -91,11 +92,15 @@ Page {
             if (person.imdb_id)
                 imdbId = person.imdb_id
 
-            var credits = new Array()
-            Util.populateArrayFromArray(person.movie_credits.cast, credits, Util.TMDbFilmographyMovie)
-            Util.populateArrayFromArray(person.tv_credits.cast, credits, Util.TMDbFilmographyTv)
-            Util.populateArrayFromArray(person.movie_credits.crew, credits, Util.TMDbFilmographyMovie)
-            Util.populateArrayFromArray(person.tv_credits.crew, credits, Util.TMDbFilmographyTv)
+            var credits = []
+            Util.populateArrayFromArray(person.movie_credits.cast, credits,
+                                        Util.TMDbFilmographyMovie)
+            Util.populateArrayFromArray(person.tv_credits.cast, credits,
+                                        Util.TMDbFilmographyTv)
+            Util.populateArrayFromArray(person.movie_credits.crew, credits,
+                                        Util.TMDbFilmographyMovie)
+            Util.populateArrayFromArray(person.tv_credits.crew, credits,
+                                        Util.TMDbFilmographyTv)
             credits.sort(sortByDepartmentAndDate)
             Util.populateModelFromArray(credits, filmographyModel)
             knownFor = countUnique(credits, 'name')
@@ -131,18 +136,23 @@ Page {
 
         // counts elements in array which have a unique 'key' property
         function countUnique(array, key) {
-            var o = {}, i, l = array.length, r = 0
+            var o = {
 
-            for(i = 0; i < l; i++)
+            }, i, l = array.length, r = 0
+
+            for (i = 0; i < l; i++)
                 o[array[i][key]] = array[i]
 
-            for(i in o)
+            for (i in o)
                 r++
 
             return r
         }
     }
 
+    RemorsePopup {
+        id: remorse
+    }
     ListModel {
         id: filmographyModel
     }
@@ -162,7 +172,11 @@ Page {
         }
     }
 
-    Component { id: filmographyView; FilmographyView { } }
+    Component {
+        id: filmographyView
+        FilmographyView {
+        }
+    }
 
     Component.onCompleted: {
         if (person)
@@ -175,10 +189,13 @@ Page {
     function fetchExtendedContent() {
         loadingExtended = true
         Util.asyncQuery({
-                            url: TMDB.person_info(tmdbId, 'movie_credits,tv_credits,images', { app_locale: appLocale }),
-                            response_action: Util.FETCH_RESPONSE_TMDB_PERSON
-                        },
-                        handleMessage)
+                            "url": TMDB.person_info(
+                                       tmdbId,
+                                       'movie_credits,tv_credits,images', {
+                                           "app_locale": appLocale
+                                       }),
+                            "response_action": Util.FETCH_RESPONSE_TMDB_PERSON
+                        }, handleMessage)
     }
 
     SilicaFlickable {
@@ -190,7 +207,8 @@ Page {
         PullDownMenu {
             MenuItem {
                 text: qsTr('View in IMDb')
-                onClicked: Qt.openUrlExternally(Util.IMDB_BASE_URL + 'name/' + parsedPerson.imdbId)
+                onClicked: Qt.openUrlExternally(
+                               Util.IMDB_BASE_URL + 'name/' + parsedPerson.imdbId)
             }
             MenuItem {
                 text: qsTr('View in TMDb')
@@ -198,26 +216,33 @@ Page {
             }
 
             MenuItem {
-                property bool isFavorite: welcomeView.indexOf({id: tmdbId, type: Util.PERSON }) >= 0
-                property variant content:
-                    ({
-                         id: parsedPerson.tmdbId,
-                         url: parsedPerson.url,
-                         title: parsedPerson.name,
-                         icon: parsedPerson.profile,
-                         type: Util.PERSON
-                     })
-                text: isFavorite ? qsTr('Remove from Favorites') : qsTr('Add to Favorites')
+                property bool isFavorite: welcomeView.indexOf({
+                                                                  "id": tmdbId,
+                                                                  "type": Util.PERSON
+                                                              }) >= 0
+                property variant content: ({
+                                               "id": parsedPerson.tmdbId,
+                                               "url": parsedPerson.url,
+                                               "title": parsedPerson.name,
+                                               "icon": parsedPerson.profile,
+                                               "type": Util.PERSON
+                                           })
+                text: isFavorite ? qsTr('Remove from Favorites') : qsTr(
+                                       'Add to Favorites')
                 onClicked: {
                     if (isFavorite)
-                        welcomeView.removeFavorite(content)
+                        remorse.execute(qsTr("Removing"), function () {
+                            welcomeView.removeFavorite(content)
+                            isFavorite = false
+                        })
                     else
                         welcomeView.addFavorite(content)
                 }
             }
         }
 
-        VerticalScrollDecorator { }
+        VerticalScrollDecorator {
+        }
 
         Column {
             id: personContent
@@ -300,7 +325,9 @@ Page {
                         }
                         font.pixelSize: Theme.fontSizeSmall
                         wrapMode: Text.WordWrap
-                        text: Qt.formatDate(Util.parseDate(parsedPerson.birthday), Qt.DefaultLocaleLongDate)
+                        text: Qt.formatDate(Util.parseDate(
+                                                parsedPerson.birthday),
+                                            Qt.DefaultLocaleLongDate)
                     }
 
                     Label {
@@ -343,7 +370,9 @@ Page {
                 visible: picturesModel.count > 0
 
                 onClicked: {
-                    appWindow.pageStack.push(galleryView, { galleryViewModel: picturesModel })
+                    appWindow.pageStack.push(galleryView, {
+                                                 "galleryViewModel": picturesModel
+                                             })
                 }
             }
 
@@ -358,38 +387,36 @@ Page {
             MyModelPreviewer {
                 width: parent.width
                 previewedModel: filmographyModel
-                previewerHeaderText:
-                    //: Header for the filmography preview shown in the person view
-                    qsTr('Filmography')
+                previewerHeaderText: //: Header for the filmography preview shown in the person view
+                                     qsTr('Filmography')
                 previewerDelegateTitle: 'name'
                 previewerDelegateSubtitle: 'subtitle'
                 previewerDelegateIcon: 'img'
                 previewerDelegatePlaceholder: 'qrc:/resources/movie-placeholder.svg'
-                previewerFooterText:
-                    //: Footer for the filmography preview shown in the person view. When clicked, shows the full filmography
-                    qsTr('Full filmography')
+                previewerFooterText: //: Footer for the filmography preview shown in the person view. When clicked, shows the full filmography
+                                     qsTr('Full filmography')
                 visible: filmographyModel.count > 0
 
                 onClicked: {
-                    if (filmographyModel.get(modelIndex).type === 'TMDbFilmographyMovie')
-                        appWindow.pageStack.push(movieView,
-                                                 {
-                                                     movie: filmographyModel.get(modelIndex),
-                                                     loading: true
+                    if (filmographyModel.get(
+                                modelIndex).type === 'TMDbFilmographyMovie')
+                        appWindow.pageStack.push(movieView, {
+                                                     "movie": filmographyModel.get(
+                                                                  modelIndex),
+                                                     "loading": true
                                                  })
                     else
-                        appWindow.pageStack.push(tvView,
-                                                 {
-                                                     movie: filmographyModel.get(modelIndex),
-                                                     loading: true
+                        appWindow.pageStack.push(tvView, {
+                                                     "movie": filmographyModel.get(
+                                                                  modelIndex),
+                                                     "loading": true
                                                  })
                 }
 
                 onFooterClicked: {
-                    appWindow.pageStack.push(filmographyView,
-                                             {
-                                                 personName: parsedPerson.name,
-                                                 filmographyModel: filmographyModel
+                    appWindow.pageStack.push(filmographyView, {
+                                                 "personName": parsedPerson.name,
+                                                 "filmographyModel": filmographyModel
                                              })
                 }
             }
@@ -399,7 +426,8 @@ Page {
     function handleMessage(messageObject) {
         var objectArray = JSON.parse(messageObject.response)
         if (objectArray.errors !== undefined) {
-            console.debug("Error parsing JSON: " + objectArray.errors[0].message)
+            console.debug(
+                        "Error parsing JSON: " + objectArray.errors[0].message)
             return
         }
 

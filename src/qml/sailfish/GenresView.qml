@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,18 +18,22 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import '../moviedbwrapper.js' as TMDB
+import "../moviedbwrapper.js" as TMDB
 
 Page {
 
-    Component { id: multipleMovieView; MultipleMoviesView {  } }
+    Component {
+        id: multipleMovieView
+        MultipleMoviesView {}
+    }
 
     JSONListModel {
         id: genresModel
-        source: TMDB.genres_list({ app_locale: appLocale })
+        source: TMDB.genres_list({
+                                     "app_locale": appLocale
+                                 })
         query: TMDB.query_path(TMDB.GENRES_LIST)
     }
 
@@ -45,12 +51,14 @@ Page {
             smallSize: true
 
             onClicked: {
-                pageStack.push(multipleMovieView ,
-                               {genre: id, genreName: name})
+                pageStack.push(multipleMovieView, {
+                                   "genre": id,
+                                   "genreName": name
+                               })
             }
         }
 
-        VerticalScrollDecorator { }
+        VerticalScrollDecorator {}
     }
 
     BusyIndicator {

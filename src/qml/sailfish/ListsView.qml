@@ -1,6 +1,6 @@
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import 'storage.js' as Storage
+import "storage.js" as Storage
 
 Page {
     id: listsView
@@ -12,7 +12,8 @@ Page {
         //: Shown as the title for the favorites menu entry
         listsModel.get(0).title = qsTr('Favorites')
         //: Shown as the subtitle for the favorites menu entry
-        listsModel.get(0).subtitle = qsTr('Your favorite movies and celebrities')
+        listsModel.get(0).subtitle = qsTr(
+                    'Your favorite movies and celebrities')
 
         //: Shown as the title for the watchlist menu entry
         listsModel.get(1).title = qsTr('Watchlist')
@@ -38,7 +39,10 @@ Page {
         }
     }
 
-    Component { id: favoritesView; FavoritesView { } }
+    Component {
+        id: favoritesView
+        FavoritesView {}
+    }
 
     Image {
         anchors.centerIn: parent
@@ -71,16 +75,18 @@ Page {
                     switch (action) {
                     case 0:
                         appWindow.pageStack.push(favoritesView, {
-                                                     headerText: model.title,
-                                                     state: 'favorites'
+                                                     "headerText": model.title,
+                                                     "pageType": 'favorites',
+                                                     "state": 'favorites'
                                                  })
-                        break;
+                        break
                     case 1:
                         appWindow.pageStack.push(favoritesView, {
-                                                     headerText: model.title,
-                                                     state: 'watchlist'
+                                                     "headerText": model.title,
+                                                     "pageType": 'watchlist',
+                                                     "state": 'watchlist'
                                                  })
-                        break;
+                        break
                     default:
                         console.debug('Action not available')
                         break
@@ -94,6 +100,5 @@ Page {
             width: parent.width
             height: 2 * Theme.paddingLarge
         }
-
     }
 }

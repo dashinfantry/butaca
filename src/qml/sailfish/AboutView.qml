@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,34 +18,32 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Page {
-    property string license: 'This program is free software: you can redistribute it and/or modify ' +
-                             'it under the terms of the GNU General Public License as published by ' +
-                             'the Free Software Foundation, either version 3 of the License, or ' +
-                             '(at your option) any later version.<br /><br />' +
-
-                             'This package is distributed in the hope that it will be useful, ' +
-                             'but WITHOUT ANY WARRANTY; without even the implied warranty of ' +
-                             'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the ' +
-                             'GNU General Public License for more details.<br /><br />' +
-
-                             'You should have received a copy of the GNU General Public License ' +
-                             'along with this program. If not, see ' +
-                             '<a href="http://www.gnu.org/licenses">http://www.gnu.org/licenses</a><br /><br />'
+    property string license: 'This program is free software: you can redistribute it and/or modify '
+                             + 'it under the terms of the GNU General Public License as published by '
+                             + 'the Free Software Foundation, either version 3 of the License, or '
+                             + '(at your option) any later version.<br /><br />'
+                             + 'This package is distributed in the hope that it will be useful, '
+                             + 'but WITHOUT ANY WARRANTY; without even the implied warranty of '
+                             + 'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the '
+                             + 'GNU General Public License for more details.<br /><br />'
+                             + 'You should have received a copy of the GNU General Public License '
+                             + 'along with this program. If not, see '
+                             + '<a href="http://www.gnu.org/licenses">http://www.gnu.org/licenses</a><br /><br />'
 
     //: Header introducing the list of contributors
     property string credits: qsTr('Thanks a lot to all contributors: %1').arg(
-                                 '<br /><p>Adrian Perez, Amit Singh, Nik Rolls, ' +
-                                 'Christoph Keller, Janne Makinen, Tuomas Siipola, ' +
-                                 'Alexandre Mazari, Petru Motrescu, Oytun Şengül, ' +
-                                 'Ismail Coskuner, Aras Ergus, Joaquim Rocha, ' +
-                                 'Marco Porsch, Lukas Vogel, Stephan Beyerle, ' +
-                                 'Jakub Kožíšek, Arno Dekker</p>')
-    property string styleSheets: "<style type='text/css'>a:link {color:%1}</style>".arg(Theme.highlightColor)
+                                 '<br /><p>Adrian Perez, Amit Singh, Nik Rolls, '
+                                 + 'Christoph Keller, Janne Makinen, Tuomas Siipola, '
+                                 + 'Alexandre Mazari, Petru Motrescu, Oytun Şengül, '
+                                 + 'Ismail Coskuner, Aras Ergus, Joaquim Rocha, '
+                                 + 'Marco Porsch, Lukas Vogel, Stephan Beyerle, '
+                                 + 'Jakub Kožíšek, Arno Dekker</p>')
+    property string styleSheets: "<style type='text/css'>a:link {color:%1}</style>".arg(
+                                     Theme.highlightColor)
 
     Component.onCompleted: {
         //: Short text inviting to recommend the application
@@ -59,7 +59,7 @@ Page {
         ListElement {
             title: 'Recomienda esta aplicación'
             action: 'openExternally'
-            data: 'mailto:?subject=Download%20Butaca&body=Available%20at%20https://openrepos.net/content/lukedirtwalker/butaca'
+            data: 'mailto:?subject=Download%20Butaca&body=Available%20at%20https://openrepos.net/content/ade/butaca-scaling-added'
         }
         ListElement {
             title: 'Cuéntanos tu opinión'
@@ -79,8 +79,7 @@ Page {
         anchors.fill: parent
         contentHeight: contentColumn.height
 
-        VerticalScrollDecorator {
-        }
+        VerticalScrollDecorator {}
 
         Column {
             id: contentColumn
@@ -144,9 +143,10 @@ Page {
                 }
 
                 //: Disclaimer about The Movie Database API usage
-                text: styleSheets + qsTr('This product uses the ' +
-                                         '<a href="http://www.themoviedb.org/">TMDb</a> ' +
-                                         'API but is not endorsed or certified by TMDb.')
+                text: styleSheets + qsTr(
+                          'This product uses the '
+                          + '<a href="http://www.themoviedb.org/">TMDb</a> '
+                          + 'API but is not endorsed or certified by TMDb.')
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignJustify
                 font.pixelSize: Theme.fontSizeSmall
@@ -176,7 +176,6 @@ Page {
             //                color: Theme.secondaryColor
             //                onLinkActivated: Qt.openUrlExternally(link)
             //            }
-
             Row {
                 anchors.right: parent.right
                 anchors.rightMargin: Theme.horizontalPageMargin
@@ -189,16 +188,20 @@ Page {
                     anchors.bottom: parent.bottom
                     width: (parent.width / 2) * 0.95
                     text: qsTr('License')
-                    onClicked: pageStack.push(Qt.resolvedUrl("InfoPage.qml"),
-                    {"title": text, "text": license})
+                    onClicked: pageStack.push(Qt.resolvedUrl("InfoPage.qml"), {
+                                                  "title": text,
+                                                  "text": license
+                                              })
                 }
                 Button {
                     //: Shown in a button. When clicked, the application credits are shown
                     anchors.bottom: parent.bottom
                     width: (parent.width / 2) * 0.95
                     text: qsTr('Credits')
-                    onClicked: pageStack.push(Qt.resolvedUrl("InfoPage.qml"),
-                    {"title": text, "text": credits})
+                    onClicked: pageStack.push(Qt.resolvedUrl("InfoPage.qml"), {
+                                                  "title": text,
+                                                  "text": credits
+                                              })
                 }
             }
             //Button {

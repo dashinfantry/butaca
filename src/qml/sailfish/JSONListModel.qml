@@ -1,10 +1,11 @@
+
+
 /* JSONListModel - a QML ListModel with JSON and JSONPath support
  *
  * Copyright (c) 2012 Romain Pokrzywka (KDAB) (romain@kdab.com)
  * Licensed under the MIT licence (http://opensource.org/licenses/mit-license.php)
  */
-
-import QtQuick 2.0
+import QtQuick 2.2
 import "jsonpath.js" as JSONPath
 
 Item {
@@ -12,40 +13,42 @@ Item {
     property string json: ""
     property string query: ""
 
-    property ListModel model: ListModel { id: jsonModel }
+    property ListModel model: ListModel {
+        id: jsonModel
+    }
     property alias count: jsonModel.count
 
     onSourceChanged: {
-        var xhr = new XMLHttpRequest;
-        xhr.open("GET", source);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == XMLHttpRequest.DONE)
-                json = xhr.responseText;
+        var xhr = new XMLHttpRequest
+        xhr.open("GET", source)
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE)
+                json = xhr.responseText
         }
-        xhr.send();
+        xhr.send()
     }
 
     onJsonChanged: updateJSONModel()
     onQueryChanged: updateJSONModel()
 
     function updateJSONModel() {
-        jsonModel.clear();
+        jsonModel.clear()
 
-        if ( json === "" )
-            return;
+        if (json === "")
+            return
 
-        var objectArray = parseJSONString(json, query);
-        for ( var key in objectArray ) {
-            var jo = objectArray[key];
-            jsonModel.append( jo );
+        var objectArray = parseJSONString(json, query)
+        for (var key in objectArray) {
+            var jo = objectArray[key]
+            jsonModel.append(jo)
         }
     }
 
     function parseJSONString(jsonString, jsonPathQuery) {
-        var objectArray = JSON.parse(jsonString);
-        if ( jsonPathQuery !== "" )
-            objectArray = JSONPath.jsonPath(objectArray, jsonPathQuery);
+        var objectArray = JSON.parse(jsonString)
+        if (jsonPathQuery !== "")
+            objectArray = JSONPath.jsonPath(objectArray, jsonPathQuery)
 
-        return objectArray;
+        return objectArray
     }
 }

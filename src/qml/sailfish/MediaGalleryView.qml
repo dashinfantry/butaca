@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,10 +18,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import '../moviedbwrapper.js' as TMDB
+import "../moviedbwrapper.js" as TMDB
 
 Page {
     id: galleryView
@@ -33,17 +34,16 @@ Page {
     property int fullSize: 4
     property int saveSize: 100
 
-//        ToolButton {
-//            anchors.centerIn: parent
-//            visible: expanded
-//            //: Placed on a tool button, when clicked opens a sheet to save the image
-//            text: qsTr('Save image')
-//            onClicked: {
-//                saveImageSheet.open()
-//            }
-//        }
-//    }
-
+    //        ToolButton {
+    //            anchors.centerIn: parent
+    //            visible: expanded
+    //            //: Placed on a tool button, when clicked opens a sheet to save the image
+    //            text: qsTr('Save image')
+    //            onClicked: {
+    //                saveImageSheet.open()
+    //            }
+    //        }
+    //    }
     Loader {
         sourceComponent: expanded ? detailedView : gridViewWrapper
         anchors.fill: parent
@@ -68,10 +68,9 @@ Page {
                     id: gridDelegateImage
                     clip: true
                     anchors.fill: parent
-                    source: TMDB.image(imgType,
-                                       gridSize,
-                                       file_path,
-                                       { app_locale: appLocale })
+                    source: TMDB.image(imgType, gridSize, file_path, {
+                                           "app_locale": appLocale
+                                       })
                     fillMode: Image.PreserveAspectCrop
                 }
                 onClicked: {
@@ -79,7 +78,7 @@ Page {
                     galleryView.expanded = !galleryView.expanded
                 }
             }
-            VerticalScrollDecorator { }
+            VerticalScrollDecorator {}
         }
     }
 
@@ -88,27 +87,29 @@ Page {
 
         Item {
             id: detailedDelegate
-//            color: '#2d2d2d'
 
-//            PageIndicator {
-//                id: detailedDelegateIndicator
-//                anchors {
-//                    top: parent.top
-//                    topMargin: Theme.paddingLarge
-//                    horizontalCenter: parent.horizontalCenter
-//                }
-//                totalPages: galleryView.galleryViewModel.count
-//                currentPage: galleryView.currentIndex + 1
-//            }
+            //            color: '#2d2d2d'
 
+            //            PageIndicator {
+            //                id: detailedDelegateIndicator
+            //                anchors {
+            //                    top: parent.top
+            //                    topMargin: Theme.paddingLarge
+            //                    horizontalCenter: parent.horizontalCenter
+            //                }
+            //                totalPages: galleryView.galleryViewModel.count
+            //                currentPage: galleryView.currentIndex + 1
+            //            }
             ZoomableImage {
                 id: detailedDelegateImage
-                remoteSource: TMDB.image(imgType,
-                                         fullSize,
-                                         galleryView.galleryViewModel.get(galleryView.currentIndex).file_path,
-                                         { app_locale: appLocale })
+                remoteSource: TMDB.image(
+                                  imgType, fullSize,
+                                  galleryView.galleryViewModel.get(
+                                      galleryView.currentIndex).file_path, {
+                                      "app_locale": appLocale
+                                  })
                 anchors {
-                    top: parent.top//detailedDelegateIndicator.bottom
+                    top: parent.top //detailedDelegateIndicator.bottom
                     topMargin: Theme.paddingLarge
                     left: parent.left
                     right: parent.right
@@ -116,14 +117,13 @@ Page {
                 }
 
                 onSwipeLeft: {
-                    galleryView.currentIndex = (galleryView.currentIndex + 1) %
-                            galleryView.galleryViewModel.count
+                    galleryView.currentIndex = (galleryView.currentIndex + 1)
+                            % galleryView.galleryViewModel.count
                 }
                 onSwipeRight: {
-                    galleryView.currentIndex =
-                            (galleryView.currentIndex - 1 +
-                             galleryView.galleryViewModel.count) %
-                            galleryView.galleryViewModel.count
+                    galleryView.currentIndex = (galleryView.currentIndex - 1
+                                                + galleryView.galleryViewModel.count)
+                            % galleryView.galleryViewModel.count
                 }
             }
 
@@ -139,59 +139,59 @@ Page {
         }
     }
 
-//    Sheet {
-//        id: saveImageSheet
+    //    Sheet {
+    //        id: saveImageSheet
 
-//        property string imageUrl: galleryView.currentIndex >= 0 ?
-//                                      TMDB.image(imgType,
-//                                                 saveSize,
-//                                                 galleryView.galleryViewModel.get(galleryView.currentIndex).file_path,
-//                                                 { app_locale: appLocale }) :
-//                                      ''
+    //        property string imageUrl: galleryView.currentIndex >= 0 ?
+    //                                      TMDB.image(imgType,
+    //                                                 saveSize,
+    //                                                 galleryView.galleryViewModel.get(galleryView.currentIndex).file_path,
+    //                                                 { app_locale: appLocale }) :
+    //                                      ''
 
-//        acceptButtonText:
-//            //: Placed on the save image sheet, when clicked actually saves the image
-//            qsTr('Save')
-//        rejectButtonText:
-//            //: Placed on the save image sheet, when clicked closes the sheet and doesn't save
-//            qsTr('Cancel')
+    //        acceptButtonText:
+    //            //: Placed on the save image sheet, when clicked actually saves the image
+    //            qsTr('Save')
+    //        rejectButtonText:
+    //            //: Placed on the save image sheet, when clicked closes the sheet and doesn't save
+    //            qsTr('Cancel')
 
-//        acceptButton.enabled: savingImage.status === Image.Ready
+    //        acceptButton.enabled: savingImage.status === Image.Ready
 
-//        buttons: BusyIndicator {
-//            anchors.centerIn: parent
-//            platformStyle: BusyIndicatorStyle {
-//                size: 'small'
-//            }
-//            visible: running
-//            running: savingImage.status === Image.Loading
-//        }
+    //        buttons: BusyIndicator {
+    //            anchors.centerIn: parent
+    //            platformStyle: BusyIndicatorStyle {
+    //                size: 'small'
+    //            }
+    //            visible: running
+    //            running: savingImage.status === Image.Loading
+    //        }
 
-//        content: Rectangle {
-//            id: saveImageContainer
-//            color: '#2d2d2d'
-//            anchors.fill: parent
+    //        content: Rectangle {
+    //            id: saveImageContainer
+    //            color: '#2d2d2d'
+    //            anchors.fill: parent
 
-//            ZoomableImage {
-//                id: savingImage
-//                remoteSource: saveImageSheet.visible ?
-//                                  saveImageSheet.imageUrl :
-//                                  ''
-//                anchors.fill: parent
-//            }
+    //            ZoomableImage {
+    //                id: savingImage
+    //                remoteSource: saveImageSheet.visible ?
+    //                                  saveImageSheet.imageUrl :
+    //                                  ''
+    //                anchors.fill: parent
+    //            }
 
-//            ProgressBar {
-//                id: savingImageProgressBar
-//                anchors.centerIn: parent
-//                width: parent.width / 2
-//                minimumValue: 0
-//                maximumValue: 1
-//                value: savingImage.progress
-//                visible: savingImage.status === Image.Loading
-//            }
-//        }
-//        onAccepted: {
-//            controller.saveImage(savingImage.image, saveImageSheet.imageUrl)
-//        }
-//    }
+    //            ProgressBar {
+    //                id: savingImageProgressBar
+    //                anchors.centerIn: parent
+    //                width: parent.width / 2
+    //                minimumValue: 0
+    //                maximumValue: 1
+    //                value: savingImage.progress
+    //                visible: savingImage.status === Image.Loading
+    //            }
+    //        }
+    //        onAccepted: {
+    //            controller.saveImage(savingImage.image, saveImageSheet.imageUrl)
+    //        }
+    //    }
 }

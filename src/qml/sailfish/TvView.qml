@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,12 +18,11 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import 'butacautils.js' as Util
-import '../moviedbwrapper.js' as TMDB
-import 'storage.js' as Storage
+import "butacautils.js" as Util
+import "../moviedbwrapper.js" as TMDB
+import "storage.js" as Storage
 import Launcher 1.0
 import Execos 1.0
 
@@ -32,7 +33,10 @@ Page {
     property alias tmdbId: parsedMovie.tmdbId
     property bool loading: false
     property bool loadingExtended: false
-    property bool inWatchlist: tmdbId ? Storage.inWatchlist({ 'id': tmdbId }) : false
+    property bool inWatchlist: tmdbId ? Storage.inWatchlist({
+                                                                "id": tmdbId
+                                                            }) : false
+    property string useVideoPlayer: Storage.getSetting('useVideoPlayer', 'false')
 
     QtObject {
         id: parsedMovie
@@ -67,8 +71,9 @@ Page {
             name = movie.name
             url = 'http://www.themoviedb.org/movie/' + tmdbId
             if (movie.img)
-                poster = TMDB.image(TMDB.IMAGE_POSTER, 2,
-                                    movie.img, { app_locale: appLocale })
+                poster = TMDB.image(TMDB.IMAGE_POSTER, 2, movie.img, {
+                                        "app_locale": appLocale
+                                    })
         }
 
         // parses JSON response
@@ -76,8 +81,9 @@ Page {
             name = movie.name
             url = 'http://www.themoviedb.org/tv/' + tmdbId
             if (movie.poster_path)
-                poster = TMDB.image(TMDB.IMAGE_POSTER, 2,
-                                    movie.poster_path, { app_locale: appLocale })
+                poster = TMDB.image(TMDB.IMAGE_POSTER, 2, movie.poster_path, {
+                                        "app_locale": appLocale
+                                    })
             if (movie.original_name)
                 originalName = movie.original_name
             if (movie.first_air_date)
@@ -94,8 +100,9 @@ Page {
                 numSeasons = movie.number_of_seasons
             if (movie.number_of_episodes)
                 numEpisodes = movie.number_of_episodes
-            if (movie.videos.results[0] &&
-                    movie.videos.results[0].site === 'YouTube') // can't deal with quicktime
+            if (movie.videos.results[0]
+                    && movie.videos.results[0].site === 'YouTube')
+                // can't deal with quicktime
                 trailer = 'http://www.youtube.com/watch?v=' + movie.videos.results[0].key
             if (movie.homepage)
                 homepage = movie.homepage
@@ -105,27 +112,34 @@ Page {
                 status = movie.status
             if (movie.episode_run_time[0]) {
                 runtime = Util.parseRuntime(movie.episode_run_time[0])
-                for (var i = 1; i < movie.episode_run_time.length; i ++)
-                    runtime += ' / ' + Util.parseRuntime(movie.episode_run_time[i])
+                for (var i = 1; i < movie.episode_run_time.length; i++)
+                    runtime += ' / ' + Util.parseRuntime(
+                                movie.episode_run_time[i])
             }
 
             Util.populateModelFromArray(movie.genres, genresModel)
             Util.populateModelFromArray(movie.images.posters, postersModel)
             Util.populateModelFromArray(movie.images.backdrops, backdropsModel)
 
-            var cast = new Array()
-            Util.populateArrayFromArray(movie.credits.cast, cast, Util.TMDbCredit)
+            var cast = []
+            Util.populateArrayFromArray(movie.credits.cast, cast,
+                                        Util.TMDbCredit)
             cast.sort(sortByCastId)
             Util.populateModelFromArray(cast, castModel)
 
-            var crew = new Array()
-            Util.populateArrayFromArray(movie.credits.crew, crew, Util.TMDbCredit)
+            var crew = []
+            Util.populateArrayFromArray(movie.credits.crew, crew,
+                                        Util.TMDbCredit)
             crew.sort(sortByDepartmentAndCastId)
             Util.populateModelFromArray(crew, crewModel)
 
             Util.populateModelFromArray(crew, creditsModel)
             Util.populateModelFromArray(cast, creditsModel)
         }
+    }
+
+    RemorsePopup {
+        id: remorse
     }
 
     Exos {
@@ -139,10 +153,10 @@ Page {
 
     function videoPlayerPresent() {
         var res = bar.launch("which harbour-videoPlayer")
-        if (res.replace("\n","") === "/usr/bin/harbour-videoPlayer")
-        return true
+        if (res.replace("\n", "") === "/usr/bin/harbour-videoPlayer")
+            return true
         else
-        return false
+            return false
     }
 
     function sortByCastId(oneItem, theOther) {
@@ -172,9 +186,9 @@ Page {
             parsedMovie.updateWithLightWeightMovie(movie)
 
         if (tmdbId)
-            fetchExtendedContent(TMDB.tv_info(tmdbId,
-                                                 'credits,images,videos',
-                                                 { app_locale: appLocale }),
+            fetchExtendedContent(TMDB.tv_info(tmdbId, 'credits,images,videos', {
+                                                  "app_locale": appLocale
+                                              }),
                                  Util.FETCH_RESPONSE_TMDB_MOVIE)
     }
 
@@ -188,7 +202,6 @@ Page {
     //   resolutions in the API configuration, all quality levels can be accessed
     // * Cast and crew are separated from each other, so we can be more specific
     //   in the movie preview
-
     ListModel {
         id: genresModel
     }
@@ -222,7 +235,10 @@ Page {
         }
     }
 
-    Component { id: castView; CastView { } }
+    Component {
+        id: castView
+        CastView {}
+    }
 
     SilicaFlickable {
         id: movieFlickableWrapper
@@ -233,27 +249,30 @@ Page {
         PullDownMenu {
             MenuItem {
                 enabled: !loading
-                text: !inWatchlist ?
-                          //: This adds the TV serie to the watch list
-                          qsTr('Add to watchlist') :
-                          //: This removes the movie from the watch list
-                          qsTr('Remove from watchlist')
+                text: !inWatchlist ? //: This adds the TV serie to the watch list
+                                     qsTr('Add to watchlist') : //: This removes the movie from the watch list
+                                     qsTr('Remove from watchlist')
                 onClicked: {
                     if (inWatchlist) {
-                        Storage.removeFromWatchlist({
-                                                        'id': tmdbId
-                                                    })
+                        remorse.execute(qsTr("Removing"), function () {
+                            Storage.removeFromWatchlist({
+                                                            "id": tmdbId
+                                                        })
+                            inWatchlist = false
+                        })
                     } else {
                         console.log('Sending!')
                         Storage.addToWatchlist({
-                                                   'id': tmdbId,
-                                                   'name': parsedMovie.name,
-                                                   'year': Util.getYearFromDate(parsedMovie.released),
-                                                   'iconSource': parsedMovie.poster,
-                                                   'rating': parsedMovie.rating,
-                                                   'votes': parsedMovie.votes,
-                                                   'type': Util.TV
+                                                   "id": tmdbId,
+                                                   "name": parsedMovie.name,
+                                                   "year": Util.getYearFromDate(
+                                                               parsedMovie.released),
+                                                   "iconSource": parsedMovie.poster,
+                                                   "rating": parsedMovie.rating,
+                                                   "votes": parsedMovie.votes,
+                                                   "type": Util.TV
                                                })
+                        inWatchlist = true
                     }
                 }
             }
@@ -270,26 +289,31 @@ Page {
             }
 
             MenuItem {
-                property bool isFavorite: welcomeView.indexOf({id: tmdbId, type: Util.TV }) >= 0
-                property variant content:
-                    ({
-                         id: parsedMovie.tmdbId,
-                         url: parsedMovie.url,
-                         title: parsedMovie.name,
-                         icon: parsedMovie.poster,
-                         type: Util.TV
-                     })
-                text: isFavorite ? qsTr('Remove from Favorites') : qsTr('Add to Favorites')
+                property bool isFavorite: welcomeView.indexOf({
+                                                                  "id": tmdbId,
+                                                                  "type": Util.TV
+                                                              }) >= 0
+                property variant content: ({
+                                               "id": parsedMovie.tmdbId,
+                                               "url": parsedMovie.url,
+                                               "title": parsedMovie.name,
+                                               "icon": parsedMovie.poster,
+                                               "type": Util.TV
+                                           })
+                text: isFavorite ? qsTr('Remove from Favorites') : qsTr(
+                                       'Add to Favorites')
                 onClicked: {
                     if (isFavorite)
-                        welcomeView.removeFavorite(content)
+                        remorse.execute(qsTr("Removing"), function () {
+                            welcomeView.removeFavorite(content)
+                        })
                     else
                         welcomeView.addFavorite(content)
                 }
             }
         }
 
-        VerticalScrollDecorator { }
+        VerticalScrollDecorator {}
 
         Column {
             id: movieContent
@@ -344,8 +368,9 @@ Page {
                             right: parent.right
                             margins: Theme.paddingLarge
                         }
-                        text: parsedMovie.originalName +
-                              (parsedMovie.started ? ' (' + Util.getYearFromDate(parsedMovie.started) + ')' : '')
+                        text: parsedMovie.originalName
+                              + (parsedMovie.started ? ' (' + Util.getYearFromDate(
+                                                           parsedMovie.started) + ')' : '')
                     }
 
                     Label {
@@ -358,7 +383,9 @@ Page {
                         font.pixelSize: Theme.fontSizeSmall
                         wrapMode: Text.WordWrap
                         //: This shows the TV show's number of episodes and seasons
-                        text: qsTr('%1 Episodes, %2 Seasons').arg(parsedMovie.numEpisodes).arg(parsedMovie.numSeasons)
+                        text: qsTr('%1 Episodes, %2 Seasons').arg(
+                                  parsedMovie.numEpisodes).arg(
+                                  parsedMovie.numSeasons)
                     }
 
                     Item {
@@ -376,9 +403,9 @@ Page {
                         font.pixelSize: Theme.fontSizeSmall
                         wrapMode: Text.WordWrap
                         //: This shows whether the TV show is currently in the means of producing further episodes or not
-                        text: parsedMovie.status + ', ' +
-                              (parsedMovie.in_production ? qsTr('in Production') :
-                                                           qsTr('currently not in Production'))
+                        text: parsedMovie.status + ', '
+                              + (parsedMovie.in_production ? qsTr('in Production') : qsTr(
+                                                                 'currently not in Production'))
                     }
                 }
             }
@@ -427,11 +454,10 @@ Page {
                     visible: postersModel.count > 0
 
                     onClicked: {
-                        appWindow.pageStack.push(galleryView,
-                                                 {
-                                                     galleryViewModel: postersModel,
-                                                     imgType: TMDB.IMAGE_POSTER,
-                                                     fullSize: 3
+                        appWindow.pageStack.push(galleryView, {
+                                                     "galleryViewModel": postersModel,
+                                                     "imgType": TMDB.IMAGE_POSTER,
+                                                     "fullSize": 3
                                                  })
                     }
                 }
@@ -446,11 +472,10 @@ Page {
                     visible: backdropsModel.count > 0
 
                     onClicked: {
-                        appWindow.pageStack.push(galleryView,
-                                                 {
-                                                     galleryViewModel: backdropsModel,
-                                                     imgType: TMDB.IMAGE_BACKDROP,
-                                                     fullSize: 1
+                        appWindow.pageStack.push(galleryView, {
+                                                     "galleryViewModel": backdropsModel,
+                                                     "imgType": TMDB.IMAGE_BACKDROP,
+                                                     "fullSize": 1
                                                  })
                     }
                 }
@@ -465,9 +490,9 @@ Page {
                     visible: parsedMovie.trailer
 
                     onClicked: {
-                        if (videoPlayerPresent()) {
+                        if (videoPlayerPresent() && useVideoPlayer === "true") {
                             oscall.start("/usr/bin/invoker",
-                            ["--type=silica-qt5", "--single-instance", "harbour-videoPlayer", parsedMovie.trailer])
+                                         ["--type=silica-qt5", "--single-instance", "harbour-videoPlayer", "-p", parsedMovie.trailer])
                         } else {
                             Qt.openUrlExternally(parsedMovie.trailer)
                         }
@@ -486,11 +511,13 @@ Page {
                 textContent: parsedMovie.overview
             }
 
-
             PropertyItem {
                 title: qsTr('Release date')
-                text: Qt.formatDate(Util.parseDate(parsedMovie.started), Qt.DefaultLocaleLongDate) + ' -\n' +
-                      Qt.formatDate(Util.parseDate(parsedMovie.ended), Qt.DefaultLocaleLongDate)
+                text: Qt.formatDate(
+                          Util.parseDate(parsedMovie.started),
+                          Qt.DefaultLocaleLongDate) + ' -\n' + Qt.formatDate(
+                          Util.parseDate(parsedMovie.ended),
+                          Qt.DefaultLocaleLongDate)
             }
 
             MyModelFlowPreviewer {
@@ -507,30 +534,27 @@ Page {
             MyModelPreviewer {
                 width: parent.width
                 previewedModel: castModel
-                previewerHeaderText:
-                    //: Header for the cast preview shown in the movie view
-                    qsTr('Cast')
+                previewerHeaderText: //: Header for the cast preview shown in the movie view
+                                     qsTr('Cast')
                 previewerDelegateTitle: 'name'
                 previewerDelegateSubtitle: 'subtitle'
                 previewerDelegateIcon: 'img'
                 previewerDelegatePlaceholder: 'qrc:/resources/person-placeholder.svg'
-                previewerFooterText:
-                    //: Footer for the cast preview shown in the movie view. When clicked, shows the full cast.
-                    qsTr('Full cast')
+                previewerFooterText: //: Footer for the cast preview shown in the movie view. When clicked, shows the full cast.
+                                     qsTr('Full cast')
                 visible: castModel.count > 0
 
                 onClicked: {
-                    appWindow.pageStack.push(personView,
-                                             {
-                                                 person: castModel.get(modelIndex),
-                                                 loading: true
+                    appWindow.pageStack.push(personView, {
+                                                 "person": castModel.get(
+                                                               modelIndex),
+                                                 "loading": true
                                              })
                 }
                 onFooterClicked: {
-                    appWindow.pageStack.push(castView,
-                                             {
-                                                 movieName: parsedMovie.name,
-                                                 castModel: castModel
+                    appWindow.pageStack.push(castView, {
+                                                 "movieName": parsedMovie.name,
+                                                 "castModel": castModel
                                              })
                 }
             }
@@ -538,31 +562,28 @@ Page {
             MyModelPreviewer {
                 width: parent.width
                 previewedModel: crewModel
-                previewerHeaderText:
-                    //: Header for the crew preview shown in the movie view
-                    qsTr('Crew')
+                previewerHeaderText: //: Header for the crew preview shown in the movie view
+                                     qsTr('Crew')
                 previewerDelegateTitle: 'name'
                 previewerDelegateSubtitle: 'subtitle'
                 previewerDelegateIcon: 'img'
                 previewerDelegatePlaceholder: 'qrc:/resources/person-placeholder.svg'
-                previewerFooterText:
-                    //: Footer for the crew preview shown in the movie view. When clicked, shows the full cast and crew.
-                    qsTr('Full cast & crew')
+                previewerFooterText: //: Footer for the crew preview shown in the movie view. When clicked, shows the full cast and crew.
+                                     qsTr('Full cast & crew')
                 visible: crewModel.count > 0
 
                 onClicked: {
-                    appWindow.pageStack.push(personView,
-                                             {
-                                                 person: crewModel.get(modelIndex),
-                                                 loading: true
+                    appWindow.pageStack.push(personView, {
+                                                 "person": crewModel.get(
+                                                               modelIndex),
+                                                 "loading": true
                                              })
                 }
                 onFooterClicked: {
-                    appWindow.pageStack.push(castView,
-                                             {
-                                                 movieName: parsedMovie.name,
-                                                 castModel: creditsModel,
-                                                 showsCast: false
+                    appWindow.pageStack.push(castView, {
+                                                 "movieName": parsedMovie.name,
+                                                 "castModel": creditsModel,
+                                                 "showsCast": false
                                              })
                 }
             }
@@ -572,16 +593,16 @@ Page {
     function fetchExtendedContent(contentUrl, action) {
         loadingExtended = true
         Util.asyncQuery({
-                            url: contentUrl,
-                            response_action: action
-                        },
-                        handleMessage)
+                            "url": contentUrl,
+                            "response_action": action
+                        }, handleMessage)
     }
 
     function handleMessage(messageObject) {
         var objectArray = JSON.parse(messageObject.response)
         if (objectArray.errors !== undefined) {
-            console.debug("Error parsing JSON: " + objectArray.errors[0].message)
+            console.debug(
+                        "Error parsing JSON: " + objectArray.errors[0].message)
             return
         }
 
@@ -590,7 +611,6 @@ Page {
             parsedMovie.updateWithFullWeightMovie(objectArray)
             loading = loadingExtended = false
             break
-
         default:
             console.debug('Unknown action response: ', messageObject.action)
             break

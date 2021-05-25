@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
 import "storage.js" as Storage
 
@@ -20,13 +20,14 @@ CoverBackground {
         var favorites = Storage.getFavorites()
         for (var i = 0; i < favorites.length; i++) {
             favoritesModel.append(favorites[i])
-            if ( i === 3 ) break
+            if (i === 3)
+                break
         }
     }
 
     onStatusChanged: {
         switch (status) {
-            case PageStatus.Activating:
+        case PageStatus.Activating:
             // reload favorites
             loadFavorites()
             break
@@ -36,7 +37,7 @@ CoverBackground {
     Image {
         id: backGroundImg
         visible: noContent
-        anchors.verticalCenterOffset: - 2 * Theme.paddingLarge
+        anchors.verticalCenterOffset: -2 * Theme.paddingLarge
         anchors.centerIn: parent
         source: "qrc:/resources/icon-bg-cinema.png"
         opacity: 0.4

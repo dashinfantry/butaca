@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,39 +18,40 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
 import "storage.js" as Storage
 
 Page {
-//    tools: ToolBarLayout {
-//        ToolIcon {
-//            iconId: 'toolbar-back'
-//            onClicked: {
-//                appWindow.pageStack.pop()
-//            }
-//        }
-//    }
 
+    //    tools: ToolBarLayout {
+    //        ToolIcon {
+    //            iconId: 'toolbar-back'
+    //            onClicked: {
+    //                appWindow.pageStack.pop()
+    //            }
+    //        }
+    //    }
     Component.onCompleted: {
         Storage.initialize()
         var includeAll = Storage.getSetting('includeAll', 'true')
         var includeAdult = Storage.getSetting('includeAdult', 'false')
-        var date = new Date(Storage.getSetting('showtimesDate', new Date().toString()))
+        var useVideoPlayer = Storage.getSetting('useVideoPlayer', 'false')
+        var date = new Date(Storage.getSetting('showtimesDate',
+                                               new Date().toString()))
 
         includeAllSwitch.checked = (includeAll === 'true')
         includeAdultSwitch.checked = (includeAdult === 'true')
+        useVideoPlayerSwitch.checked = (useVideoPlayer === 'true')
         if (date < new Date())
             date = new Date() // now
         setDate(date)
     }
 
     // TODO cinemas
-//    Component.onDestruction: {
-//        Storage.setSetting('location', locationInput.text)
-//    }
-
+    //    Component.onDestruction: {
+    //        Storage.setSetting('location', locationInput.text)
+    //    }
     SilicaFlickable {
         id: settingsContent
         anchors {
@@ -73,93 +76,93 @@ Page {
             Column {
                 id: showtimesSection
                 // TODO: showtimes
-//                width: parent.width
-//                spacing: Theme.paddingLarge
+                //                width: parent.width
+                //                spacing: Theme.paddingLarge
 
-//                SectionHeader {
-//                    id: showtimesSectionHeader
-//                    //: Label for the showtimes section in the settings view
-//                    text: qsTr('Showtimes')
-//                }
+                //                SectionHeader {
+                //                    id: showtimesSectionHeader
+                //                    //: Label for the showtimes section in the settings view
+                //                    text: qsTr('Showtimes')
+                //                }
 
-//                Row {
-//                    id: showtimesLocation
-//                    spacing: Theme.paddingLarge
-//                    width: parent.width
+                //                Row {
+                //                    id: showtimesLocation
+                //                    spacing: Theme.paddingLarge
+                //                    width: parent.width
 
-//                    Label {
-//                        id: locationText
-//                        anchors.verticalCenter: locationInput.verticalCenter
-//                        color: UIConstants.COLOR_INVERTED_FOREGROUND
-//                        //: Label for the default location setting to try for showtimes
-//                        text: qsTr('Default location')
-//                    }
+                //                    Label {
+                //                        id: locationText
+                //                        anchors.verticalCenter: locationInput.verticalCenter
+                //                        color: UIConstants.COLOR_INVERTED_FOREGROUND
+                //                        //: Label for the default location setting to try for showtimes
+                //                        text: qsTr('Default location')
+                //                    }
 
-//                    TextField {
-//                        id: locationInput
-//                        //: Placeholder text for the default location. When visible, automatic location will be attempted
-//                        placeholderText: qsTr('Try automatically')
-//                        width: parent.width - locationText.width - parent.spacing
-//                        text: Storage.getSetting('location', '')
+                //                    TextField {
+                //                        id: locationInput
+                //                        //: Placeholder text for the default location. When visible, automatic location will be attempted
+                //                        placeholderText: qsTr('Try automatically')
+                //                        width: parent.width - locationText.width - parent.spacing
+                //                        text: Storage.getSetting('location', '')
 
-//                        EnterKey.enabled: text.length > 0
-//                        EnterKey.iconSource: "image://theme/icon-m-enter-accept"
-//                        EnterKey.onClicked:  {
-//                            Storage.setSetting('location', text)
-//                            focus = false
-//                        }
+                //                        EnterKey.enabled: text.length > 0
+                //                        EnterKey.iconSource: "image://theme/icon-m-enter-accept"
+                //                        EnterKey.onClicked:  {
+                //                            Storage.setSetting('location', text)
+                //                            focus = false
+                //                        }
 
-////                        Image {
-////                            id: clearLocationText
-////                            anchors {
-////                                right: parent.right
-////                                verticalCenter: parent.verticalCenter
-////                            }
-////                            source: 'image://theme/icon-m-input-clear'
-////                            visible: locationInput.activeFocus
-////                        }
+                ////                        Image {
+                ////                            id: clearLocationText
+                ////                            anchors {
+                ////                                right: parent.right
+                ////                                verticalCenter: parent.verticalCenter
+                ////                            }
+                ////                            source: 'image://theme/icon-m-input-clear'
+                ////                            visible: locationInput.activeFocus
+                ////                        }
 
-////                        MouseArea {
-////                            id: locationInputMouseArea
-////                            anchors.fill: clearLocationText
-////                            onClicked: {
-////                                inputContext.reset()
-////                                locationInput.text = ''
-////                            }
-////                        }
-//                    }
-//                }
+                ////                        MouseArea {
+                ////                            id: locationInputMouseArea
+                ////                            anchors.fill: clearLocationText
+                ////                            onClicked: {
+                ////                                inputContext.reset()
+                ////                                locationInput.text = ''
+                ////                            }
+                ////                        }
+                //                    }
+                //                }
 
-//                Row {
-//                    id: showtimesDateItem
-//                    width: parent.width
-//                    spacing: Theme.paddingLarge
+                //                Row {
+                //                    id: showtimesDateItem
+                //                    width: parent.width
+                //                    spacing: Theme.paddingLarge
 
-//                    Label {
-//                        id: showtimesDateLabel
-//                        width: locationText.width
-//                        anchors.verticalCenter: showtimesDateButton.verticalCenter
-//                        color: UIConstants.COLOR_INVERTED_FOREGROUND
-//                        //: Label for the showtimes date setting
-//                        text: qsTr('Date')
-//                    }
+                //                    Label {
+                //                        id: showtimesDateLabel
+                //                        width: locationText.width
+                //                        anchors.verticalCenter: showtimesDateButton.verticalCenter
+                //                        color: UIConstants.COLOR_INVERTED_FOREGROUND
+                //                        //: Label for the showtimes date setting
+                //                        text: qsTr('Date')
+                //                    }
 
-//                    Button {
-//                        id: showtimesDateButton
-//                        width: parent.width - showtimesDateLabel.width - parent.spacing
-//                        onClicked: showtimesDateDialog.open()
+                //                    Button {
+                //                        id: showtimesDateButton
+                //                        width: parent.width - showtimesDateLabel.width - parent.spacing
+                //                        onClicked: showtimesDateDialog.open()
 
-//                        Image {
-//                           anchors {
-//                               right: parent.right
-//                               rightMargin: Theme.paddingLarge
-//                               verticalCenter: parent.verticalCenter
-//                           }
-//                           height: parent.height - Theme.paddingLarge
-//                           source: "image://theme/meegotouch-combobox-indicator-inverted"
-//                       }
-//                    }
-//                }
+                //                        Image {
+                //                           anchors {
+                //                               right: parent.right
+                //                               rightMargin: Theme.paddingLarge
+                //                               verticalCenter: parent.verticalCenter
+                //                           }
+                //                           height: parent.height - Theme.paddingLarge
+                //                           source: "image://theme/meegotouch-combobox-indicator-inverted"
+                //                       }
+                //                    }
+                //                }
             }
 
             Column {
@@ -178,7 +181,8 @@ Page {
                     //: Label for the include criteria setting for adult content used when browsing
                     text: qsTr('Include content with <10 votes')
                     onCheckedChanged: {
-                        Storage.setSetting('includeAll', checked ? 'true' : 'false')
+                        Storage.setSetting('includeAll',
+                                           checked ? 'true' : 'false')
                     }
                 }
 
@@ -187,7 +191,16 @@ Page {
                     //: Label for the include criteria setting for adult content used when browsing
                     text: qsTr('Include adult content')
                     onCheckedChanged: {
-                        Storage.setSetting('includeAdult', checked ? 'true' : 'false')
+                        Storage.setSetting('includeAdult',
+                                           checked ? 'true' : 'false')
+                    }
+                }
+                TextSwitch {
+                    id: useVideoPlayerSwitch
+                    text: qsTr('Use LLs Video Player (if installed) for YouTube trailers')
+                    onCheckedChanged: {
+                        Storage.setSetting('useVideoPlayer',
+                                           checked ? 'true' : 'false')
                     }
                 }
             }
@@ -213,12 +226,14 @@ Page {
 
     DatePickerDialog {
         id: showtimesDateDialog
-//        titleText: "Showtimes date"
+        //        titleText: "Showtimes date"
         onAccepted: {
             var date = new Date(showtimesDateDialog.year,
-                                showtimesDateDialog.month - 1, // months are 0-based
+                                showtimesDateDialog.month - 1,
+                                // months are 0-based
                                 showtimesDateDialog.day)
-            if (date < new Date()) // accept future dates only
+            if (date < new Date())
+                // accept future dates only
                 date = new Date()
             Storage.setSetting('showtimesDate', date.toString())
             setDate(date)
@@ -234,7 +249,8 @@ Page {
             //: Shown in a button when the date is set to Today.
             showtimesDateButton.text = qsTr('Today')
         } else {
-            showtimesDateButton.text = Qt.formatDate(date, Qt.DefaultLocaleShortDate)
+            showtimesDateButton.text = Qt.formatDate(date,
+                                                     Qt.DefaultLocaleShortDate)
         }
     }
 }

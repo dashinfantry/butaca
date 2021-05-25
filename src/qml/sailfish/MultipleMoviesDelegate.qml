@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,10 +18,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import '../moviedbwrapper.js' as TMDB
+import "../moviedbwrapper.js" as TMDB
 
 BackgroundItem {
     id: movieDelegate
@@ -59,9 +60,10 @@ BackgroundItem {
                 width: 95 * appWindow.sizeRatio
                 height: 140 * appWindow.sizeRatio
                 fillMode: Image.PreserveAspectFit
-                source: iconSource ?
-                            TMDB.image(TMDB.IMAGE_POSTER, 0, iconSource, { app_locale: appLocale }) :
-                            placeholderSource
+                source: iconSource ? TMDB.image(TMDB.IMAGE_POSTER, 0,
+                                                iconSource, {
+                                                    "app_locale": appLocale
+                                                }) : placeholderSource
                 onStatusChanged: {
                     if (moviePoster.status == Image.Error) {
                         moviePoster.source = placeholderSource
@@ -79,7 +81,7 @@ BackgroundItem {
                     color: movieDelegate.highlighted ? Theme.highlightColor : Theme.primaryColor
                     width: parent.width
                     truncationMode: TruncationMode.Fade
-//                    textFormat: Text.StyledText
+                    //                    textFormat: Text.StyledText
                     text: name
                 }
 

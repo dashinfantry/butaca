@@ -17,7 +17,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
 import "butacautils.js" as Util
 import "../moviedbwrapper.js" as TMDB
@@ -39,11 +39,11 @@ Page {
             }
 
             Util.asyncQuery({
-                url: TMDB.configuration_getUrl({
-                    app_locale: appLocale
-                }),
-                response_action: 0
-            }, handleMessage)
+                                "url": TMDB.configuration_getUrl({
+                                                                     "app_locale": appLocale
+                                                                 }),
+                                "response_action": 0
+                            }, handleMessage)
         }
 
         PullDownMenu {
@@ -64,56 +64,47 @@ Page {
 
         Component {
             id: browseView
-            GenresView {
-            }
+            GenresView {}
         }
 
         Component {
             id: searchView
-            SearchView {
-            }
+            SearchView {}
         }
 
         Component {
             id: showtimesView
-            TheatersView {
-            }
+            TheatersView {}
         }
 
         Component {
             id: settingsView
-            SettingsView {
-            }
+            SettingsView {}
         }
 
         Component {
             id: movieView
-            MovieView {
-            }
+            MovieView {}
         }
 
         Component {
             id: tvView
-            TvView {
-            }
+            TvView {}
         }
 
         Component {
             id: personView
-            PersonView {
-            }
+            PersonView {}
         }
 
         Component {
             id: aboutView
-            AboutView {
-            }
+            AboutView {}
         }
 
         Component {
             id: listsView
-            ListsView {
-            }
+            ListsView {}
         }
 
         Column {
@@ -131,8 +122,13 @@ Page {
                 title: qsTr('Movie genres')
                 subtitle: qsTr('Explore movie genres')
                 onClicked: pageStack.push(browseView)
+                Rectangle {
+                    width: parent.width
+                    height: parent.height
+                    color: Theme.primaryColor
+                    opacity: 0.05
+                }
             }
-
 
             // FIXME: Backend currently doesn't support this
             //            MyListDelegate {
@@ -153,8 +149,14 @@ Page {
                 title: qsTr('Lists')
                 subtitle: qsTr('Favorites and watchlist')
                 onClicked: pageStack.push(listsView, {
-                                              headerText: title
+                                              "headerText": title
                                           })
+                Rectangle {
+                    width: parent.width
+                    height: parent.height
+                    color: Theme.primaryColor
+                    opacity: 0.05
+                }
             }
 
             Grid {
@@ -171,25 +173,24 @@ Page {
                         onClicked: {
                             if (type == Util.MOVIE) {
                                 appWindow.pageStack.push(movieView, {
-                                                             tmdbId: id,
-                                                             loading: true
+                                                             "tmdbId": id,
+                                                             "loading": true
                                                          })
                             } else if (type == Util.TV) {
                                 appWindow.pageStack.push(tvView, {
-                                                             tmdbId: id,
-                                                             loading: true
+                                                             "tmdbId": id,
+                                                             "loading": true
                                                          })
                             } else {
                                 appWindow.pageStack.push(personView, {
-                                                             tmdbId: id,
-                                                             loading: true
+                                                             "tmdbId": id,
+                                                             "loading": true
                                                          })
                             }
                         }
                     }
                 }
             }
-
         }
         Label {
             //: Shown as a placeholder in the favorites area of the main view while no favorites are there
@@ -200,7 +201,7 @@ Page {
             font.pixelSize: Theme.fontSizeExtraLarge
             anchors.top: content.bottom
             anchors.bottom: parent.bottom
-            anchors.topMargin: (welcomeView.height - content.height)  / 2
+            anchors.topMargin: (welcomeView.height - content.height) / 2
             horizontalAlignment: Text.AlignHCenter
             width: parent.width
         }
@@ -209,12 +210,14 @@ Page {
             id: favoritesModel
         }
 
-        VerticalScrollDecorator {
-        }
+        VerticalScrollDecorator {}
     }
 
     function addFavorite(content) {
+        console.log("content")
+        console.log(content)
         var insertId = Storage.saveFavorite(content)
+        console.log(insertId)
         content.rowId = insertId
         favoritesModel.append(content)
     }
@@ -228,6 +231,8 @@ Page {
         if (idx !== -1) {
             var rowId = favoritesModel.get(idx).rowId
             favoritesModel.remove(idx)
+            console.log("rowId remove")
+            console.log(rowId)
             Storage.removeFavorite(rowId)
         }
     }
@@ -246,7 +251,7 @@ Page {
         var jsonResponse = JSON.parse(messageObject.response)
         if (jsonResponse.errors === undefined)
             TMDB.configuration_set(jsonResponse, {
-                                       app_locale: appLocale
+                                       "app_locale": appLocale
                                    })
     }
 }

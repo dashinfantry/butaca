@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,36 +18,36 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import 'butacautils.js' as Util
-import '../moviedbwrapper.js' as TMDB
+import "butacautils.js" as Util
+import "../moviedbwrapper.js" as TMDB
 import "storage.js" as Storage
 
 Page {
 
     property string genre: ''
-    property string genreName:  ''
+    property string genreName: ''
 
     JSONListModel {
         id: moviesModel
         property int page: 1
         property string includeAll: Storage.getSetting('includeAll', 'true')
-        property string includeAdult: Storage.getSetting('includeAdult', 'false')
+        property string includeAdult: Storage.getSetting('includeAdult',
+                                                         'false')
         query: TMDB.query_path(TMDB.MOVIE_BROWSE)
         onJsonChanged: {
-            Util.populateModelFromModel(model, localModel, Util.TMDBSearchresult)
+            Util.populateModelFromModel(model, localModel,
+                                        Util.TMDBSearchresult)
         }
-        Component.onCompleted: updateSource();
+        Component.onCompleted: updateSource()
 
         function updateSource() {
-            source = TMDB.movie_browse(genre,
-                                       {
-                                           app_locale: appLocale,
-                                           'page_value': page,
-                                           'includeAll_value': includeAll,
-                                           'includeAdult_value': includeAdult
+            source = TMDB.movie_browse(genre, {
+                                           "app_locale": appLocale,
+                                           "page_value": page,
+                                           "includeAll_value": includeAll,
+                                           "includeAdult_value": includeAdult
                                        })
         }
     }
@@ -54,7 +56,10 @@ Page {
         id: localModel
     }
 
-    Component { id: movieView; MovieView { } }
+    Component {
+        id: movieView
+        MovieView {}
+    }
 
     SilicaListView {
         id: list
@@ -68,9 +73,8 @@ Page {
             year: Util.getYearFromDate(model.date)
 
             onClicked: {
-                pageStack.push(movieView,
-                               {
-                                   movie: localModel.get(index)
+                pageStack.push(movieView, {
+                                   "movie": localModel.get(index)
                                })
             }
         }
@@ -85,15 +89,14 @@ Page {
             }
         }
 
-        VerticalScrollDecorator { }
+        VerticalScrollDecorator {}
 
         ViewPlaceholder {
             id: noResults
             //: When browsing movies, shown when no movies matched the browse criteria
             text: qsTr('No content found')
-            enabled: moviesModel.json !== "" &&
-                     moviesModel.count === 0 &&
-                     localModel.count === 0
+            enabled: moviesModel.json !== "" && moviesModel.count === 0
+                     && localModel.count === 0
         }
 
         PullDownMenu {
@@ -103,7 +106,8 @@ Page {
                 onClicked: {
                     var page = 1
                     var includeAll = Storage.getSetting('includeAll', 'true')
-                    var includeAdult = Storage.getSetting('includeAdult', 'false')
+                    var includeAdult = Storage.getSetting('includeAdult',
+                                                          'false')
                     if (moviesModel.page !== page
                             || moviesModel.includeAll !== includeAll
                             || moviesModel.includeAdult !== includeAdult) {
@@ -120,7 +124,9 @@ Page {
             MenuItem {
                 text: qsTr("Preferences")
                 onClicked: {
-                    appWindow.pageStack.push(settingsView, { state: 'showBrowsingSection' })
+                    appWindow.pageStack.push(settingsView, {
+                                                 "state": 'showBrowsingSection'
+                                             })
                 }
             }
         }

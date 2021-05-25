@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,8 +18,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
 import "storage.js" as Storage
 import "butacautils.js" as Util
@@ -25,25 +26,26 @@ import "butacautils.js" as Util
 Page {
     id: cinemasView
 
-
     property string extendedSection: ''
     property string location
     property string daysAhead
     property bool showShowtimesFilter: false
-    property real contentYPos: list.visibleArea.yPosition *
-                               Math.max(list.height, list.contentHeight)
+    property real contentYPos: list.visibleArea.yPosition * Math.max(
+                                   list.height, list.contentHeight)
 
     Component.onCompleted: {
-        var date = new Date(Storage.getSetting('showtimesDate', Date.now().toString()))
+        var date = new Date(Storage.getSetting('showtimesDate',
+                                               Date.now().toString()))
         if (date < new Date())
             date = new Date() // now
 
         location = Storage.getSetting('location', '')
         daysAhead = Util.dateDiffInDays(new Date(), date)
         theaterModel.setFilterWildcard('')
-        if (list.model.count === 0 ||
-                location.localeCompare(controller.currentLocation()) !== 0 ||
-                daysAhead.localeCompare(controller.currentDaysAhead()) !== 0) {
+        if (list.model.count === 0 || location.localeCompare(
+                    controller.currentLocation()) !== 0
+                || daysAhead.localeCompare(controller.currentDaysAhead(
+                                               )) !== 0) {
             controller.fetchTheaters(location, daysAhead)
             cinemasView.state = 'Loading'
         } else {
@@ -66,7 +68,10 @@ Page {
 
     state: 'Loading'
 
-    Component { id: showtimesView; ShowtimesView { } }
+    Component {
+        id: showtimesView
+        ShowtimesView {}
+    }
 
     SilicaListView {
         id: list
@@ -86,9 +91,8 @@ Page {
 
             SearchField {
                 width: parent.width
-                placeholderText:
-                    //: Placeholder text for the search field in the showtimes view
-                    qsTr('Search')
+                placeholderText: //: Placeholder text for the search field in the showtimes view
+                                 qsTr('Search')
                 onTextChanged: {
                     theaterModel.setFilterWildcard(text)
                 }
@@ -103,11 +107,11 @@ Page {
             subtitleSize: Theme.fontSizeSmall
 
             onClicked: {
-                appWindow.pageStack.push(showtimesView,
-                                         {
-                                             cinemaName: model.name,
-                                             cinemaInfo: model.info,
-                                             showtimesModel: theaterModel.showtimes(index)
+                appWindow.pageStack.push(showtimesView, {
+                                             "cinemaName": model.name,
+                                             "cinemaInfo": model.info,
+                                             "showtimesModel": theaterModel.showtimes(
+                                                                   index)
                                          })
             }
         }
@@ -117,14 +121,18 @@ Page {
                 text: qsTr("Refresh")
                 visible: cinemasView.state !== 'Loading'
                 onClicked: {
-                    var date = new Date(Storage.getSetting('showtimesDate', Date.now().toString()))
+                    var date = new Date(Storage.getSetting(
+                                            'showtimesDate',
+                                            Date.now().toString()))
                     if (date < new Date())
                         date = new Date() // now
 
                     location = Storage.getSetting('location', '')
                     daysAhead = Util.dateDiffInDays(new Date(), date)
-                    if (location.localeCompare(controller.currentLocation()) !== 0 ||
-                            daysAhead.localeCompare(controller.currentDaysAhead()) !== 0) {
+                    if (location.localeCompare(
+                                controller.currentLocation()) !== 0
+                            || daysAhead.localeCompare(
+                                controller.currentDaysAhead()) !== 0) {
                         controller.fetchTheaters(location, daysAhead)
                         cinemasView.state = 'Loading'
                     }
@@ -134,22 +142,23 @@ Page {
             MenuItem {
                 text: qsTr("Preferences")
                 onClicked: {
-                    appWindow.pageStack.push(settingsView, { state: 'showShowtimesSection' })
+                    appWindow.pageStack.push(settingsView, {
+                                                 "state": 'showShowtimesSection'
+                                             })
                 }
             }
         }
 
         ViewPlaceholder {
             id: noTheaterResults
-            text: (location ?
-                       //: Message shown when no results are found for a given location
-                       qsTr('No results for %1').arg(location) :
-                       //: Message shown when no results are found for the automatic location
-                       qsTr('No results for your location'))
+            text: (location ? //: Message shown when no results are found for a given location
+                              qsTr('No results for %1').arg(
+                                  location) : //: Message shown when no results are found for the automatic location
+                              qsTr('No results for your location'))
             enabled: list.model.count === 0
         }
 
-        VerticalScrollDecorator { }
+        VerticalScrollDecorator {}
     }
 
     BusyIndicator {
@@ -163,22 +172,51 @@ Page {
     states: [
         State {
             name: 'Ready'
-            PropertyChanges { target: busyIndicator; running: false; visible: false }
-            PropertyChanges { target: list; visible: true }
-            PropertyChanges { target: noTheaterResults; visible: false}
+            PropertyChanges {
+                target: busyIndicator
+                running: false
+                visible: false
+            }
+            PropertyChanges {
+                target: list
+                visible: true
+            }
+            PropertyChanges {
+                target: noTheaterResults
+                visible: false
+            }
         },
         State {
             name: 'Loading'
-            PropertyChanges { target: busyIndicator; running: true; visible: true }
-            PropertyChanges { target: list; visible: false }
-            PropertyChanges { target: noTheaterResults; visible: false }
+            PropertyChanges {
+                target: busyIndicator
+                running: true
+                visible: true
+            }
+            PropertyChanges {
+                target: list
+                visible: false
+            }
+            PropertyChanges {
+                target: noTheaterResults
+                visible: false
+            }
         },
         State {
             name: 'Failed'
-            PropertyChanges { target: busyIndicator; running: false; visible: false }
-            PropertyChanges { target: list; visible: false }
-            PropertyChanges { target: noTheaterResults; visible: true }
+            PropertyChanges {
+                target: busyIndicator
+                running: false
+                visible: false
+            }
+            PropertyChanges {
+                target: list
+                visible: false
+            }
+            PropertyChanges {
+                target: noTheaterResults
+                visible: true
+            }
         }
-
     ]
 }

@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,29 +18,33 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
 
 ApplicationWindow {
     id: appWindow
     property bool largeScreen: Screen.width > 1080
     property bool mediumScreen: (Screen.width > 720 && Screen.width <= 1080)
-    property bool smallScreen: (Screen.width  >= 720 && Screen.width < 1080)
-    property bool smallestScreen: Screen.width  < 720
+    property bool smallScreen: (Screen.width >= 720 && Screen.width < 1080)
+    property bool smallestScreen: Screen.width < 720
     property int sizeRatio: smallestScreen ? 1 : smallScreen ? 1.5 : 2
+    property string prevPage: ""
 
     allowedOrientations: Orientation.Portrait | Orientation.Landscape
                          | Orientation.LandscapeInverted
 
     _defaultPageOrientations: Orientation.Portrait | Orientation.Landscape
-    | Orientation.LandscapeInverted
+                              | Orientation.LandscapeInverted
 
     initialPage: mainPage
 
     cover: appCover
 
-    CoverPage { id: appCover }
+    CoverPage {
+        id: appCover
+    }
 
-    WelcomeView { id: mainPage }
+    WelcomeView {
+        id: mainPage
+    }
 }

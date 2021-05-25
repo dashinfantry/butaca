@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,10 +18,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import '../moviedbwrapper.js' as TMDB
+import "../moviedbwrapper.js" as TMDB
 
 Column {
     id: modelPreviewer
@@ -36,7 +37,7 @@ Column {
     property string previewerDelegatePlaceholder: ''
 
     signal clicked(int modelIndex)
-    signal footerClicked()
+    signal footerClicked
 
     MyEntryHeader {
         anchors {
@@ -56,11 +57,15 @@ Column {
             width: modelPreviewer.width
             smallSize: true
 
-            iconSource: previewedModel.get(index)[previewerDelegateIcon] ?
-                            TMDB.image(TMDB.IMAGE_PROFILE, 0,
-                                       previewedModel.get(index)[previewerDelegateIcon],
-                                       { app_locale: appLocale }) :
-                            previewerDelegatePlaceholder
+            iconSource: previewedModel.get(
+                            index)[previewerDelegateIcon] ? TMDB.image(
+                                                                TMDB.IMAGE_PROFILE,
+                                                                0,
+                                                                previewedModel.get(
+                                                                    index)[previewerDelegateIcon],
+                                                                {
+                                                                    "app_locale": appLocale
+                                                                }) : previewerDelegatePlaceholder
 
             title: previewedModel.get(index)[previewerDelegateTitle]
             titleSize: Theme.fontSizeSmall

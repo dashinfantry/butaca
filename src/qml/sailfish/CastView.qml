@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,32 +18,31 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import 'butacautils.js' as BUTACA
-import '../moviedbwrapper.js' as TMDB
+import "butacautils.js" as BUTACA
+import "../moviedbwrapper.js" as TMDB
 
 Page {
     id: castView
 
     // Dummy function for translations (found no other way to add them to the file)
     function dummy() {
-        qsTr('Camera');
-        qsTr("Crew");
-        qsTr("Sound");
-        qsTr("Directing");
-        qsTr("Writing");
-        qsTr("Production");
-        qsTr("Actors");
-        qsTr("Editing");
-        qsTr("Art");
-        qsTr("Costume & Make-Up");
-        qsTr("Visual Effects");
+        qsTr('Camera')
+        qsTr("Crew")
+        qsTr("Sound")
+        qsTr("Directing")
+        qsTr("Writing")
+        qsTr("Production")
+        qsTr("Actors")
+        qsTr("Editing")
+        qsTr("Art")
+        qsTr("Costume & Make-Up")
+        qsTr("Visual Effects")
     }
 
     property string movieName: ''
-    property ListModel castModel: ListModel { }
+    property ListModel castModel: ListModel {}
     property bool showsCast: true
 
     Component {
@@ -58,25 +59,24 @@ Page {
         anchors.fill: parent
         model: castModel
         header: PageHeader {
-            title: showsCast ?
-                      //: This appears in the cast view when the cast is shown
-                      qsTr('Full cast in %1').arg(movieName) :
-                      //: This appears in the cast view when cast and crew are shown
-                      qsTr('Cast and crew in %1').arg(movieName)
+            title: showsCast ? //: This appears in the cast view when the cast is shown
+                               qsTr('Full cast in %1').arg(
+                                   movieName) : //: This appears in the cast view when cast and crew are shown
+                               qsTr('Cast and crew in %1').arg(movieName)
         }
         delegate: MyListDelegate {
             width: castList.width
             title: model.name
             subtitle: model.subtitle || ''
-            iconSource: model.img ?
-                            TMDB.image(TMDB.IMAGE_PROFILE, 0, model.img, { app_locale: appLocale }) :
-                            'qrc:/resources/person-placeholder.svg'
+            iconSource: model.img ? TMDB.image(TMDB.IMAGE_PROFILE, 0,
+                                               model.img, {
+                                                   "app_locale": appLocale
+                                               }) : 'qrc:/resources/person-placeholder.svg'
 
             onClicked: {
-                appWindow.pageStack.push(personView,
-                                         {
-                                             person: model,
-                                             loading: true
+                appWindow.pageStack.push(personView, {
+                                             "person": model,
+                                             "loading": true
                                          })
             }
         }
@@ -84,6 +84,6 @@ Page {
         section.property: !showsCast ? 'department' : ''
         section.delegate: listSectionDelegate
 
-        VerticalScrollDecorator { }
+        VerticalScrollDecorator {}
     }
 }

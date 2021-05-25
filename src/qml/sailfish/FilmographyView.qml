@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,28 +18,27 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import 'butacautils.js' as Util
-import '../moviedbwrapper.js' as TMDB
+import "butacautils.js" as Util
+import "../moviedbwrapper.js" as TMDB
 
 Page {
     id: filmographyView
 
     // Dummy function for translations (found no other way to add them to the file)
     function dummy() {
-        qsTr('Camera');
-        qsTr("Crew");
-        qsTr("Sound");
-        qsTr("Directing");
-        qsTr("Writing");
-        qsTr("Production");
-        qsTr("Acting");
-        qsTr("Editing");
-        qsTr("Art");
-        qsTr("Costume & Make-Up");
-        qsTr("Visual Effects");
+        qsTr('Camera')
+        qsTr("Crew")
+        qsTr("Sound")
+        qsTr("Directing")
+        qsTr("Writing")
+        qsTr("Production")
+        qsTr("Acting")
+        qsTr("Editing")
+        qsTr("Art")
+        qsTr("Costume & Make-Up")
+        qsTr("Visual Effects")
     }
 
     property string personName: ''
@@ -62,26 +63,24 @@ Page {
         }
         delegate: MyListDelegate {
             width: filmographyList.width
-            title: model.name +
-                   (model.date ? ' (' + Util.getYearFromDate(model.date) + ')' : '')
+            title: model.name + (model.date ? ' (' + Util.getYearFromDate(
+                                                  model.date) + ')' : '')
             subtitle: model.subtitle
-            iconSource: model.img ?
-                            TMDB.image(TMDB.IMAGE_POSTER, 0, model.img, { app_locale: appLocale }) :
-                            'qrc:/resources/movie-placeholder.svg'
+            iconSource: model.img ? TMDB.image(TMDB.IMAGE_POSTER, 0,
+                                               model.img, {
+                                                   "app_locale": appLocale
+                                               }) : 'qrc:/resources/movie-placeholder.svg'
 
             onClicked: {
                 if (model.type === 'TMDbFilmographyMovie')
-                    pageStack.push(movieView,
-                                   {
-                                       movie: model,
-                                       loading: true
+                    pageStack.push(movieView, {
+                                       "movie": model,
+                                       "loading": true
                                    })
                 else
-
-                    pageStack.push(tvView,
-                                   {
-                                       movie: model,
-                                       loading: true
+                    pageStack.push(tvView, {
+                                       "movie": model,
+                                       "loading": true
                                    })
             }
         }
@@ -89,6 +88,7 @@ Page {
         section.property: 'department'
         section.delegate: listSectionDelegate
 
-        VerticalScrollDecorator { }
+        VerticalScrollDecorator {
+        }
     }
 }

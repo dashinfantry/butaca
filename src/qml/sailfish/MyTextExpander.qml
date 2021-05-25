@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
 
 BackgroundItem {
@@ -33,11 +33,14 @@ BackgroundItem {
             width: parent.width
             clip: true
 
-            height: opened ? contentLabel.height
-                           : Math.min(contentLabel.height, contentLabelHeight.height)
+            height: opened ? contentLabel.height : Math.min(
+                                 contentLabel.height, contentLabelHeight.height)
 
             Behavior on height {
-                NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
+                NumberAnimation {
+                    duration: 200
+                    easing.type: Easing.InOutQuad
+                }
             }
 
             Label {

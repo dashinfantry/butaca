@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
 
 Page {
@@ -15,7 +15,9 @@ Page {
             id: content
             width: parent.width
 
-            PageHeader { id: header }
+            PageHeader {
+                id: header
+            }
 
             Item {
                 height: contentText.height
@@ -35,6 +37,6 @@ Page {
             }
         }
 
-        VerticalScrollDecorator { }
+        VerticalScrollDecorator {}
     }
 }

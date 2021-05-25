@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,12 +18,10 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
 
 // Zoom features support (both pinch gesture and double click) taken from xkcdMeegoReader
-
 Flickable {
     id: flickable
     clip: true
@@ -34,8 +34,8 @@ Flickable {
     property alias status: image.status
     property alias progress: image.progress
     property string remoteSource: ''
-    signal swipeLeft()
-    signal swipeRight()
+    signal swipeLeft
+    signal swipeRight
 
     onRemoteSourceChanged: {
         image.source = remoteSource
@@ -58,29 +58,30 @@ Flickable {
             fillMode: Image.PreserveAspectFit
 
             function calculateSize() {
-                scale = Math.min(flickable.width / width, flickable.height / height) * 0.98;
-                pinchArea.minScale = scale;
-                prevScale = Math.min(scale, 1);
+                scale = Math.min(flickable.width / width,
+                                 flickable.height / height) * 0.98
+                pinchArea.minScale = scale
+                prevScale = Math.min(scale, 1)
             }
 
             onScaleChanged: {
                 if ((width * scale) > flickable.width) {
-                    var xoff = (flickable.width / 2 + flickable.contentX) * scale / prevScale;
-                    flickable.contentX = xoff - flickable.width / 2;
+                    var xoff = (flickable.width / 2 + flickable.contentX) * scale / prevScale
+                    flickable.contentX = xoff - flickable.width / 2
                 }
                 if ((height * scale) > flickable.height) {
-                    var yoff = (flickable.height / 2 + flickable.contentY) * scale / prevScale;
-                    flickable.contentY = yoff - flickable.height / 2;
+                    var yoff = (flickable.height / 2 + flickable.contentY) * scale / prevScale
+                    flickable.contentY = yoff - flickable.height / 2
                 }
 
-                prevScale = scale;
+                prevScale = scale
             }
 
             onStatusChanged: {
                 if (status == Image.Ready) {
-                    calculateSize();
-                } else if (status == Image.Error &&
-                           image.source != remoteSource) {
+                    calculateSize()
+                } else if (status == Image.Error
+                           && image.source != remoteSource) {
                     image.source = remoteSource
                 }
             }
@@ -89,7 +90,7 @@ Flickable {
 
     PinchArea {
         id: pinchArea
-        property real minScale:  1.0
+        property real minScale: 1.0
         property real lastScale: 1.0
         anchors.fill: parent
 
@@ -101,7 +102,7 @@ Flickable {
     }
 
     MouseArea {
-        anchors.fill : parent
+        anchors.fill: parent
         property bool doubleClicked: false
         property int startX
         property int startY
@@ -130,8 +131,8 @@ Flickable {
                 var deltaY = (mouse.y / image.scale) - startY
 
                 // Swipe is only allowed when we're not zoomed in
-                if (image.scale == pinchArea.minScale &&
-                        (Math.abs(deltaX) > 50 || Math.abs(deltaY) > 50)) {
+                if (image.scale == pinchArea.minScale
+                        && (Math.abs(deltaX) > 50 || Math.abs(deltaY) > 50)) {
 
                     if (deltaX > 30) {
                         flickable.swipeRight()

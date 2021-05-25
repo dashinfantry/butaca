@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,7 +18,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
@@ -41,7 +42,7 @@ BackgroundItem {
             id: delegateImage
             width: parent.width
             height: width * 1.5
-//            fillMode: Image.PreserveAspectFit
+            //            fillMode: Image.PreserveAspectFit
         }
 
         Label {

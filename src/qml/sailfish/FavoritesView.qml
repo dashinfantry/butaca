@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,11 +18,10 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import 'butacautils.js' as Util
-import 'storage.js' as Storage
+import "butacautils.js" as Util
+import "storage.js" as Storage
 
 Page {
     id: favoritesView
@@ -29,9 +30,24 @@ Page {
     property string moviePlaceholderIcon: 'qrc:/resources/movie-placeholder.svg'
     property string personPlaceholderIcon: 'qrc:/resources/person-placeholder.svg'
     property string headerText: ''
+    property string pageType: ''
 
     ListModel {
         id: localModel
+    }
+
+    onStatusChanged: {
+        console.log(appWindow.prevPage)
+        if (status === PageStatus.Activating) {
+            if (appWindow.prevPage === "watchlist") {
+                loadContent(false)
+                appWindow.prevPage = ""
+            }
+            if (appWindow.prevPage === "favorites") {
+                loadContent(true)
+                appWindow.prevPage = ""
+            }
+        }
     }
 
     SilicaGridView {
@@ -45,13 +61,14 @@ Page {
         model: localModel
         delegate: FavoriteDelegate {
             id: favDel
-            source: model.icon ?
-                        model.icon :
-                        (type == Util.PERSON ? personPlaceholderIcon : moviePlaceholderIcon)
+            source: model.icon ? model.icon : (type == Util.PERSON ? personPlaceholderIcon : moviePlaceholderIcon)
 
             text: title
             onClicked: {
-                var pageConfig = { tmdbId: id, loading: true }
+                var pageConfig = {
+                    "tmdbId": id,
+                    "loading": true
+                }
                 var thePage = movieView
 
                 if (holdsMixedContent) {
@@ -63,6 +80,34 @@ Page {
 
                 appWindow.pageStack.push(thePage, pageConfig)
             }
+            ContextMenu {
+                id: contextMenu
+                parent: favDel
+                anchors {
+                    left: favDel.left
+                    right: favDel.right
+                    bottom: favDel.bottom
+                }
+                MenuItem {
+                    text: qsTr("Remove")
+                    onClicked: {
+                        if (pageType === "watchlist") {
+                            Storage.removeFromWatchlist({
+                                                            "id": id
+                                                        })
+                            loadContent(false)
+                        }
+                        // if (appWindow.prevPage === "favorites") {
+                        //     loadContent(true)
+                        // }
+                    }
+                }
+            }
+            onPressAndHold: {
+                if (pageType === "watchlist") {
+                    contextMenu.open(this)
+                }
+            }
         }
 
         header: PageHeader {
@@ -70,7 +115,7 @@ Page {
             title: headerText
         }
 
-        VerticalScrollDecorator { }
+        VerticalScrollDecorator {}
 
         ViewPlaceholder {
             id: noContentItem
@@ -88,7 +133,7 @@ Page {
             content = Storage.getWatchlist()
         }
 
-        for (var i = 0; i < content.length; i ++) {
+        for (var i = 0; i < content.length; i++) {
             localModel.append(content[i])
         }
     }
@@ -123,6 +168,5 @@ Page {
                 script: loadContent(true)
             }
         }
-
     ]
 }

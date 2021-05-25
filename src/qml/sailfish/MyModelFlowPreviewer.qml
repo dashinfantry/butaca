@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,10 +18,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-
 
 Column {
     id: flwt
@@ -53,9 +53,10 @@ Column {
         Repeater {
             model: previewedItems
             delegate: Label {
-                    font.pixelSize: Theme.fontSizeSmall
-                    text: flwt.flowModel.get(index)[previewedField] + (index !== previewedItems - 1 ? ', ' : '')
-                }
+                font.pixelSize: Theme.fontSizeSmall
+                text: flwt.flowModel.get(
+                          index)[previewedField] + (index !== previewedItems - 1 ? ', ' : '')
+            }
         }
     }
 }

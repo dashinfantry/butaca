@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,20 +18,20 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import 'butacautils.js' as Util
-import '../moviedbwrapper.js' as TheMovieDb
-import 'storage.js' as Storage
+import "butacautils.js" as Util
+import "../moviedbwrapper.js" as TheMovieDb
+import "storage.js" as Storage
 
 Page {
     id: searchView
 
     property alias searchTerm: searchInput.text
-    property bool useSimpleDelegate : searchCategory.currentIndex === 2
+    property bool useSimpleDelegate: searchCategory.currentIndex === 2
     property bool loading: false
-    property ListModel localModel: ListModel { }
+    property ListModel localModel: ListModel {
+    }
 
     Component.onCompleted: {
         searchInput.forceActiveFocus()
@@ -100,16 +102,19 @@ Page {
         property string movieName: ''
         property int page: 1
         source: movieName ? TheMovieDb.search('movie', movieName, {
-                                                  app_locale: appLocale,
-                                                  'page_value': page,
-                                                  'includeAdult_value': Storage.getSetting('includeAdult', 'false')
+                                                  "app_locale": appLocale,
+                                                  "page_value": page,
+                                                  "includeAdult_value": Storage.getSetting(
+                                                                            'includeAdult',
+                                                                            'false')
                                               }) : ''
         query: TheMovieDb.query_path(TheMovieDb.SEARCH)
         onJsonChanged: {
             if (json !== "")
                 loading = false
             if (count !== 0)
-                Util.populateModelFromModel(moviesModel.model, localModel, Util.TMDBSearchresult)
+                Util.populateModelFromModel(moviesModel.model, localModel,
+                                            Util.TMDBSearchresult)
         }
     }
 
@@ -118,14 +123,15 @@ Page {
         property string tvName: ''
         property int page: 1
         source: tvName ? TheMovieDb.search('tv', tvName, {
-                                                   app_locale: appLocale,
-                                                   'page_value': page
-                                               }) : ''
+                                               "app_locale": appLocale,
+                                               "page_value": page
+                                           }) : ''
         query: TheMovieDb.query_path(TheMovieDb.SEARCH)
         onJsonChanged: {
             if (json !== "")
                 loading = false
-            Util.populateModelFromModel(tvModel.model, localModel, Util.TMDBSearchresult)
+            Util.populateModelFromModel(tvModel.model, localModel,
+                                        Util.TMDBSearchresult)
         }
     }
 
@@ -134,15 +140,18 @@ Page {
         property string personName: ''
         property int page: 1
         source: personName ? TheMovieDb.search('person', personName, {
-                                                   app_locale: appLocale,
-                                                   'page_value': page,
-                                                   'includeAdult_value': Storage.getSetting('includeAdult', 'false')
+                                                   "app_locale": appLocale,
+                                                   "page_value": page,
+                                                   "includeAdult_value": Storage.getSetting(
+                                                                             'includeAdult',
+                                                                             'false')
                                                }) : ''
         query: TheMovieDb.query_path(TheMovieDb.SEARCH)
         onJsonChanged: {
             if (json !== "")
                 loading = false
-            Util.populateModelFromModel(peopleModel.model, localModel, Util.TMDBSearchresult)
+            Util.populateModelFromModel(peopleModel.model, localModel,
+                                        Util.TMDBSearchresult)
         }
     }
 
@@ -177,7 +186,8 @@ Page {
                     }
                 }
 
-                VerticalScrollDecorator { }
+                VerticalScrollDecorator {
+                }
             }
         }
     }
@@ -204,7 +214,8 @@ Page {
                         peopleModel.page++
                 }
 
-                VerticalScrollDecorator { }
+                VerticalScrollDecorator {
+                }
             }
         }
     }
@@ -233,9 +244,9 @@ Page {
     states: [
         State {
             name: 'loadingState'
-            when: (moviesModel.source != '' && moviesModel.json == '') ||
-                  (tvModel.source != '' && tvModel.json == '') ||
-                  (peopleModel.source != '' && peopleModel.json == '')
+            when: (moviesModel.source != '' && moviesModel.json == '')
+                  || (tvModel.source != '' && tvModel.json == '')
+                  || (peopleModel.source != '' && peopleModel.json == '')
             PropertyChanges {
                 target: busyIndicator
                 running: true
@@ -243,10 +254,10 @@ Page {
         },
         State {
             name: 'notFoundState'
-            when: ((moviesModel.source != '' && moviesModel.json != '') ||
-                   (tvModel.source != '' && tvModel.json != '') ||
-                   (peopleModel.source != '' && peopleModel.json != '' )) &&
-                  localModel.count === 0
+            when: ((moviesModel.source != '' && moviesModel.json
+                    != '') || (tvModel.source != '' && tvModel.json
+                               != '') || (peopleModel.source != '' && peopleModel.json
+                                          != '')) && localModel.count === 0
             PropertyChanges {
                 target: noResults
                 enabled: true
@@ -256,10 +267,8 @@ Page {
         },
         State {
             name: 'emptyState'
-            when: moviesModel.source == '' &&
-                  tvModel.source == '' &&
-                  peopleModel.source  == '' &&
-                  !searchInput.text
+            when: moviesModel.source == '' && tvModel.source == ''
+                  && peopleModel.source == '' && !searchInput.text
             PropertyChanges {
                 target: noResults
                 enabled: true
@@ -272,11 +281,17 @@ Page {
     function handleClicked(index) {
         var element = localModel.get(index)
         if (searchCategory.currentIndex === 0) {
-            pageStack.push(movieView, { movie: element })
+            pageStack.push(movieView, {
+                               "movie": element
+                           })
         } else if (searchCategory.currentIndex === 1) {
-            pageStack.push(tvView, { movie: element })
+            pageStack.push(tvView, {
+                               "movie": element
+                           })
         } else if (searchCategory.currentIndex === 2) {
-            pageStack.push(personView, { person: element })
+            pageStack.push(personView, {
+                               "person": element
+                           })
         }
     }
 

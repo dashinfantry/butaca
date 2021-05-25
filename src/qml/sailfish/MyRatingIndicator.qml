@@ -1,3 +1,5 @@
+
+
 /****************************************************************************
 **
 ** Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
@@ -37,9 +39,9 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
+
 
 /*
    Class: RatingIndicator
@@ -52,11 +54,13 @@ import Sailfish.Silica 1.0
 Item {
     id: root
 
+
     /*
      * Property: maximumValue
      * [double] The maximum rating.  The number should be larger or equal to 0.
      */
     property double maximumValue: 0.0
+
 
     /*
      * Property: ratingValue
@@ -67,7 +71,6 @@ Item {
     property bool highlighted: false
 
 
-
     /*
      * Property: count
      * [int] A number to be displayed next to the rating images.  It is usually used to count the number of
@@ -75,55 +78,60 @@ Item {
      */
     property int count: -1
 
+
     /*
      * Property: starsMax
      * [integer] Specify whether the visual for the rating indicator uses the inverted color.  The value is
      * false for use with a light background and true for use with a dark background.
      */
     property int starsMax: 5
+
+
     /*
      * Property: starValue
      * [integer] Specify whether the visual for the rating indicator uses the inverted color.  The value is
      * false for use with a light background and true for use with a dark background.
      */
-    property double starValue: roundHalf((ratingValue/maximumValue)*starsMax)
+    property double starValue: roundHalf(
+                                   (ratingValue / maximumValue) * starsMax)
     property int starValueInt: Math.floor(starValue)
     property double starWidth: (starValue % 1)
 
-    implicitHeight: Math.max(background.height, text.paintedHeight);
-    implicitWidth: background.width + (count >= 0 ? internal.textSpacing + text.paintedWidth : 0);
+    implicitHeight: Math.max(background.height, text.paintedHeight)
+    implicitWidth: background.width + (count >= 0 ? internal.textSpacing + text.paintedWidth : 0)
 
     QtObject {
         id: internal
 
         property int imageWidth: 16 * appWindow.sizeRatio
         property int imageHeight: 16 * appWindow.sizeRatio
-        property int indicatorSpacing: 5  // spacing between images
-        property int textSpacing: 8  // spacing between image and text
-        property url backgroundImageSource: "image://theme/icon-m-favorite" + (highlighted ? "?" + Theme.highlightColor : "")
-        property url indicatorImageSource: "image://theme/icon-m-favorite-selected" + (highlighted ? "?" + Theme.highlightColor : "")
+        property int indicatorSpacing: 5 // spacing between images
+        property int textSpacing: 8 // spacing between image and text
+        property url backgroundImageSource: "image://theme/icon-m-favorite"
+                                            + (highlighted ? "?" + Theme.highlightColor : "")
+        property url indicatorImageSource: "image://theme/icon-m-favorite-selected"
+                                           + (highlighted ? "?" + Theme.highlightColor : "")
     }
     function roundHalf(num) {
-        num = Math.round(num*2)/2;
-        return num;
+        num = Math.round(num * 2) / 2
+        return num
     }
     function round(n) {
-        var h = Math.floor((n % starsMax)*10);
+        var h = Math.floor((n % starsMax) * 10)
         console.log(h)
-        return h >= 7
-            ? n + (10 - h) * .01
-            : n;
+        return h >= 7 ? n + (10 - h) * .01 : n
     }
     Row {
         id: background
         anchors.bottom: parent.bottom
-        width: bgRepeater.model.count*Theme.iconSizeSmall
+        width: bgRepeater.model.count * Theme.iconSizeSmall
         anchors.verticalCenter: height < text.paintedHeight ? text.verticalCenter : undefined
         Repeater {
             id: bgRepeater
             model: starsMax
             Image {
-                width: Theme.iconSizeSmall; height: Theme.iconSizeSmall
+                width: Theme.iconSizeSmall
+                height: Theme.iconSizeSmall
                 source: internal.backgroundImageSource
             }
         }
@@ -131,24 +139,27 @@ Item {
     Row {
         id: indicator
         anchors.bottom: parent.bottom
-        width: indRepeater.model.count*Theme.iconSizeSmall
+        width: indRepeater.model.count * Theme.iconSizeSmall
         anchors.verticalCenter: height < text.paintedHeight ? text.verticalCenter : undefined
         Repeater {
             id: indRepeater
             model: starValueInt
             Image {
-                width: Theme.iconSizeSmall; height: Theme.iconSizeSmall
+                width: Theme.iconSizeSmall
+                height: Theme.iconSizeSmall
                 source: internal.indicatorImageSource
             }
         }
         Rectangle {
-            width: starWidth*Theme.iconSizeSmall; height: Theme.iconSizeSmall
+            width: starWidth * Theme.iconSizeSmall
+            height: Theme.iconSizeSmall
             color: 'transparent'
             clip: true
             Image {
                 anchors.left: parent.left
                 anchors.top: parent.top
-                width: Theme.iconSizeSmall; height: Theme.iconSizeSmall
+                width: Theme.iconSizeSmall
+                height: Theme.iconSizeSmall
                 source: internal.indicatorImageSource
             }
         }

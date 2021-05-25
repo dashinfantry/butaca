@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,8 +18,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
 
 BackgroundItem {
@@ -40,9 +41,7 @@ BackgroundItem {
     property bool expanded: false
 
     property int defaultSize: smallSize ? Theme.itemSizeSmall : Theme.itemSizeMedium
-    height: titleWraps || subtitleWraps ?
-                delegateColumn.height :
-                defaultSize
+    height: titleWraps || subtitleWraps ? delegateColumn.height : defaultSize
 
     Image {
         id: delegateImage
@@ -67,9 +66,9 @@ BackgroundItem {
             rightMargin: Theme.paddingLarge
             verticalCenter: parent.verticalCenter
         }
-        width: parent.width -
-               (delegateImage.visible ? (delegateImage.width + Theme.paddingLarge) : 0) -
-               Theme.paddingLarge
+        width: parent.width - (delegateImage.visible ? (delegateImage.width
+                                                        + Theme.paddingLarge) : 0)
+               - Theme.paddingLarge
 
         Label {
             id: delegateTitleLabel
@@ -93,17 +92,17 @@ BackgroundItem {
         }
     }
 
-//    MyMoreIndicator {
-//        id: delegateMoreIndicator
-//        anchors {
-//            verticalCenter: parent.verticalCenter
-//            right: parent.right
-//            rightMargin: Theme.paddingLarge
-//        }
-//        rotation: expandable ? (expanded ? -90 : 90) : 0
+    //    MyMoreIndicator {
+    //        id: delegateMoreIndicator
+    //        anchors {
+    //            verticalCenter: parent.verticalCenter
+    //            right: parent.right
+    //            rightMargin: Theme.paddingLarge
+    //        }
+    //        rotation: expandable ? (expanded ? -90 : 90) : 0
 
-//        Behavior on rotation {
-//            NumberAnimation { duration: 100 }
-//        }
-//    }
+    //        Behavior on rotation {
+    //            NumberAnimation { duration: 100 }
+    //        }
+    //    }
 }

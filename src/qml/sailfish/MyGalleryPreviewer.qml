@@ -1,3 +1,5 @@
+
+
 /**************************************************************************
  *   Butaca
  *   Copyright (C) 2011 - 2012 Simon Pena <spena@igalia.com>
@@ -16,10 +18,9 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  **************************************************************************/
-
-import QtQuick 2.0
+import QtQuick 2.2
 import Sailfish.Silica 1.0
-import '../moviedbwrapper.js' as TMDB
+import "../moviedbwrapper.js" as TMDB
 
 BackgroundItem {
     id: galleryPreviewer
@@ -49,13 +50,15 @@ BackgroundItem {
             model: Math.min(previewedItems, galleryPreviewerModel.count)
             delegate: Image {
                 id: previewerDelegate
-                width: previewerDelegateIconWidth; height: previewerDelegateIconHeight
+                width: previewerDelegateIconWidth
+                height: previewerDelegateIconHeight
                 opacity: galleryPreviewer.highlighted ? 0.5 : 1
                 fillMode: Image.PreserveAspectFit
                 source: TMDB.image(previewerDelegateType,
                                    previewerDelegateSize,
-                                   galleryPreviewerModel.get(index).file_path,
-                                   { app_locale: appLocale} )
+                                   galleryPreviewerModel.get(index).file_path, {
+                                       "app_locale": appLocale
+                                   })
             }
         }
     }
