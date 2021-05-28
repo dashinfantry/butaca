@@ -24,7 +24,7 @@
     <message>
         <source>Rate us in the Nokia Store</source>
         <extracomment>Short text inviting to rate us in the Nokia Store</extracomment>
-        <translation type="unfinished"/>
+        <translation>在诺基亚商店给我们评分。<translation>
     </message>
     <message>
         <location filename="../qml/AboutView.qml" line="65"/>
@@ -35,7 +35,7 @@
     <message>
         <source>Check our other apps</source>
         <extracomment>Short text inviting to check our other apps</extracomment>
-        <translation type="unfinished"/>
+        <translation>查看我们的其它软件<translation>
     </message>
     <message>
         <location filename="../qml/AboutView.qml" line="213"/>
@@ -46,7 +46,7 @@
     <message>
         <source>This product uses &lt;a href=&quot;http://aftercredits.com/&quot;&gt;What&apos;s After The Credits?&lt;/a&gt; API but is not endorsed or certified by them.</source>
         <extracomment>Disclaimer about After Credits API usage</extracomment>
-        <translation type="unfinished"/>
+        <translation>本产品采用了 lt;a href=&quot;http://aftercredits.com/&quot;&gt;What&apos;s After The Credits?&lt;/a&gt; API 但未得到他们的批准。 <translation>
     </message>
     <message>
         <location filename="../qml/AboutView.qml" line="63"/>
@@ -214,7 +214,7 @@
     </message>
     <message>
         <source>Actors</source>
-        <translation type="unfinished"/>
+        <translation>演员<translation>
     </message>
     <message>
         <location filename="../qml/FilmographyView.qml" line="48"/>
@@ -323,7 +323,7 @@
     <message>
         <source>View extras</source>
         <extracomment>This opens a website displaying movie's extras after or during credits</extracomment>
-        <translation type="unfinished"/>
+        <translation>查看群众演员<translation>
     </message>
     <message>
         <location filename="../qml/MovieView.qml" line="84"/>
@@ -340,7 +340,7 @@
     <message>
         <source>Not found</source>
         <extracomment>This indicates that no extra content after or during the credits was found</extracomment>
-        <translation type="unfinished"/>
+        <translation>未找到<translation>
     </message>
     <message>
         <location filename="../qml/MovieView.qml" line="304"/>
@@ -405,7 +405,7 @@
     <message>
         <source>Extras after or during credits?</source>
         <extracomment>Label acting as the header for the extra information after / during credits</extracomment>
-        <translation type="unfinished"/>
+        <translation>列出及未列出的群众演员?<translation>
     </message>
     <message>
         <location filename="../qml/MovieView.qml" line="630"/>
@@ -524,7 +524,7 @@
     <message>
         <source>There was an error performing the search</source>
         <extracomment>Shown in the search results area when an error ocurred</extracomment>
-        <translation type="unfinished"/>
+        <translation>执行搜索出错<translation>
     </message>
     <message>
         <location filename="../qml/SearchView.qml" line="299"/>
@@ -598,47 +598,47 @@
     <message>
         <source>Order criteria</source>
         <extracomment>Label for the order criteria setting used when browsing</extracomment>
-        <translation type="unfinished"/>
+        <translation>排序方式<translation>
     </message>
     <message>
         <source>Rating</source>
         <extracomment>Label for the &quot;order by rating&quot; setting</extracomment>
-        <translation type="unfinished"/>
+        <translation>评分<translation>
     </message>
     <message>
         <source>Release</source>
         <extracomment>Label for the &quot;order by release date&quot; setting</extracomment>
-        <translation type="unfinished"/>
+        <translation>发行<translation>
     </message>
     <message>
         <source>Title</source>
         <extracomment>Label for the &quot;order by title&quot; setting</extracomment>
-        <translation type="unfinished"/>
+        <translation>标题<translation>
     </message>
     <message>
         <source>Sort order</source>
         <extracomment>Label for the sort order setting used when browsing</extracomment>
-        <translation type="unfinished"/>
+        <translation>排列顺序<translation>
     </message>
     <message>
         <source>Ascending</source>
         <extracomment>Label for the &quot;sort ascending&quot; setting</extracomment>
-        <translation type="unfinished"/>
+        <translation>升序<translation>
     </message>
     <message>
         <source>Descending</source>
         <extracomment>Label for the &quot;sort descending&quot; setting</extracomment>
-        <translation type="unfinished"/>
+        <translation>降序<translation>
     </message>
     <message>
         <source>Results per page</source>
         <extracomment>Label for the results per page setting used when browsing</extracomment>
-        <translation type="unfinished"/>
+        <translation>每页结果<translation>
     </message>
     <message>
         <source>Minimum votes</source>
         <extracomment>Label for the minimum votes setting used when browsing</extracomment>
-        <translation type="unfinished"/>
+        <translation最小票数><translation>
     </message>
 </context>
 <context>
